@@ -171,10 +171,27 @@
             let buttons = document.querySelectorAll('.btn-item button');
             let this_val = $(this).attr('html-value');
             let value_choose = '';
+
+            let cabin_register = document.querySelectorAll('#cabin-register .btn');
+            let check_click_cabin = 0;
+            cabin_register.forEach((item)=>{
+                if(item.classList.contains('btn-success')){
+                    check_click_cabin = check_click_cabin + 1;
+                }
+            });
+
+            if(check_click_cabin == 0){
+                Swal.fire({
+                    title: 'Lưu ý!',
+                    text: 'Vui lòng chọn Cabin trước khi chọn thời gian học',
+                    icon: 'warning'
+                })
+                return;
+            }
             
             if($(this).hasClass('btn-default')){
                 Swal.fire({
-                    title: 'Chú ý!',
+                    title: 'Lưu ý!',
                     text: 'Khung giờ đã có học viên đặt trước',
                     icon: 'error'
                 })
@@ -220,6 +237,41 @@
                 }
             });
             $('#cabin-number').val(value_choose);
+
+            // xét lại thời gian
+            let date_register = $('#date-register').val();
+            let number_cabin_choose = value_choose;
+            if(date_register !== '' && number_cabin_choose !== ''){
+                let list_times_register = document.querySelectorAll('#time-register button');
+                list_times_register?.forEach((btn_time)=>{
+                    btn_time.classList.remove('btn-default');
+                    btn_time.classList.add('btn-info');
+                });
+                $.ajax({
+                    url: '{{ route("check.time.cabin") }}',
+                    data: {
+                        'date_booking': date_register,
+                        'cabin_id': number_cabin_choose
+                    },
+                    method: 'POST',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType: 'json',
+                    success: function (res){
+                        if(res?.data?.length > 0){
+                            res?.data?.map((i_time)=>{
+                                list_times_register?.forEach((btn_time)=>{
+                                    if(i_time.time_id == btn_time.getAttribute('html-value')){
+                                        btn_time.classList.add('btn-default');
+                                        if(btn_time.classList.contains('btn-info')){
+                                            btn_time.classList.remove('btn-info');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            }
         });
         $('#btn-booking').on('click',function(e){
             e.stopPropagation();
@@ -230,7 +282,7 @@
             if(date_val < date_check){
                 $('#alert-date').html('<div class="text-danger">Ngày đăng ký không hợp lệ vui lòng chọn lại</div>');
                 Swal.fire({
-                    title: 'Chú ý!',
+                    title: 'Lưu ý!',
                     text: 'Ngày đăng ký không hợp lệ vui lòng chọn lại',
                     icon: 'error'
                 })
@@ -250,7 +302,7 @@
                     $('#alert-name *').remove();
                   }else{
                     Swal.fire({
-                        title: 'Chú ý!',
+                        title: 'Lưu ý!',
                         text: 'Vui lòng nhập đầy đủ họ tên',
                         icon: 'error'
                     })
@@ -262,7 +314,7 @@
                 }
                 if(cabin_val == ''){
                   Swal.fire({
-                      title: 'Chú ý!',
+                      title: 'Lưu ý!',
                       text: 'Vui lòng chọn Cabin muốn đăng ký',
                       icon: 'error'
                   })
@@ -273,7 +325,7 @@
                 }
                 if(time_val == ''){
                   Swal.fire({
-                      title: 'Chú ý!',
+                      title: 'Lưu ý!',
                       text: 'Vui lòng chọn thời gian muốn đăng ký học',
                       icon: 'error'
                   })
@@ -285,7 +337,7 @@
                 
                 if(telephone_val == ''){
                   Swal.fire({
-                      title: 'Chú ý!',
+                      title: 'Lưu ý!',
                       text: 'Vui lòng kiểm tra lại số điện thoại',
                       icon: 'error'
                   })

@@ -113,4 +113,15 @@ class BookingController extends Controller
             'status' => 1,
         ]);
     }
+
+    public function checkTimeCabin(Request $request){
+        $data_json = array();
+        $time_ids = Booking::where('date_booking',$request->date_booking)->where('cabin_id',$request->cabin_id)->select('time_id')->get();
+        return response()->json([
+            'api_name' => 'Lịch học Cabin đã đặt',
+            'message' => 'Load dữ liệu thành công',
+            'data' => $time_ids,
+            'status' => 1,
+        ]);
+    }
 }

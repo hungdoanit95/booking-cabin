@@ -21,3 +21,4 @@ Route::post('/creater-or-update', [App\Http\Controllers\BookingController::class
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/check-time-cabin', [App\Http\Controllers\BookingController::class, 'checkTimeCabin'])->name('check.time.cabin');
