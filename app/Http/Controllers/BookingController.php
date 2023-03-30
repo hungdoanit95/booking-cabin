@@ -4,98 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\TimeBooks;
+use App\Models\Cabins;
 
 class BookingController extends Controller
 {
     public function index(){
-        $time_books = array(
-            array(
-                'time_id' => 1,
-                'time_value' => '6h00 - 7h00',
-            ),
-            array(
-                'time_id' => 2,
-                'time_value' => '7h00 - 8h00',
-            ),
-            array(
-                'time_id' => 3,
-                'time_value' => '8h00 - 9h00',
-            ),
-            array(
-                'time_id' => 4,
-                'time_value' => '9h00 - 10h00',
-            ),
-            array(
-                'time_id' => 5,
-                'time_value' => '10h00 - 11h00',
-            ),
-            array(
-                'time_id' => 6,
-                'time_value' => '11h00 - 12h00',
-            ),
-            array(
-                'time_id' => 7,
-                'time_value' => '12h00 - 13h00',
-            ),
-            array(
-                'time_id' => 8,
-                'time_value' => '13h00 - 14h00',
-            ),
-            array(
-                'time_id' => 9,
-                'time_value' => '14h30 - 15h30',
-            ),
-            array(
-                'time_id' => 10,
-                'time_value' => '15h30 - 16h30',
-            ),
-            array(
-                'time_id' => 11,
-                'time_value' => '16h30 - 17h30',
-            ),
-            array(
-                'time_id' => 12,
-                'time_value' => '17h30 - 18h30',
-            ),
-            array(
-                'time_id' => 13,
-                'time_value' => '18h30 - 19h30',
-            ),
-            array(
-                'time_id' => 14,
-                'time_value' => '19h30 - 20h30',
-            ),
-            array(
-                'time_id' => 15,
-                'time_value' => '20h30 - 21h30',
-            ),
-            array(
-                'time_id' => 16,
-                'time_value' => '21h30 - 22h30',
-            ),
-        );
-        $cabins = array(
-            array(
-                'id' => 1,
-                'name' => 'Cabin số 1',
-            ),
-            array(
-                'id' => 2,
-                'name' => 'Cabin số 2',
-            ),
-            array(
-                'id' => 3,
-                'name' => 'Cabin số 3',
-            ),
-            array(
-                'id' => 4,
-                'name' => 'Cabin số 4',
-            ),
-            array(
-                'id' => 5,
-                'name' => 'Cabin số 5',
-            ),
-        );
+        $time_books = TimeBooks::all()->toArray();
+        $cabins = Cabins::all();
         return view('booking', [
             'time_books' => array_chunk(array_chunk($time_books,5),2),
             'cabins' => $cabins
@@ -148,11 +64,47 @@ class BookingController extends Controller
         return view('find-booking');
     }
 
+    
+    public function findBooking(Request $request){
+        $data = array();
+        if(!empty($request->date_register) && !empty($request->keywords)){
+            $keyword = $request->keywords;
+            $bookings = Booking::leftjoin('cabins','cabins.id','booking_cabin.cabin_id')->leftjoin('timebooks','timebooks.time_id','booking_cabin.time_id')->where('date_booking',$request->date_register)->where(function ($q) use ($keyword){
+                $q->where('telephone_booking',$keyword)
+                ->orWhere('name_booking',$keyword);
+            })->get();
+            $data = $bookings;
+        }
+        if(!empty($data)){
+            return response()->json([
+                'api_name' => 'Api Find Booking',
+                'status' => 1,
+                'message' => 'Tìm kiếm thành công',
+                'data' => $data
+            ]);
+        }else{
+            return response()->json([
+                'api_name' => 'Api Find Booking',
+                'status' => 0,
+                'message' => 'Tìm kiếm không thành công',
+                'data' => $data
+            ]);
+        }
+    }
+
     public function findBookings(Request $request){
         $data_json = array();
         if(!empty($request->telephone) || !empty($request->date_booking)){
             $date_bokking = !empty($request->date_booking)?$request->date_booking:date('Y-m-d');
-            $bookings = Booking::where('telephone_booking',$request->telephone)->where('date_bokking',$date_bokking)->get();
+            $bookings = Booking::where('telephone_booking',$request->telephone)->where('date_bokking',$date_bokking)
+            ->select(
+                'cabins.name',
+                'timebooks.time_value',
+                'booking_cabin.date_booking',
+                'booking_cabin.name_booking',
+                'booking_cabin.email_booking',
+                'booking_cabin.telephone_booking'
+            )->get();
         }
         return response()->json([
             'api_name' => 'Lịch học Cabin đã đặt',

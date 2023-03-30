@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/tim-kiem', [App\Http\Controllers\BookingController::class, 'viewFindBooking']);
-Route::get('/find-bookings', [App\Http\Controllers\BookingController::class, 'viewFindBooking'])->name('find.bookings');
+Route::post('/find-bookings', [App\Http\Controllers\BookingController::class, 'findBooking'])->name('find.bookings');
 Route::get('/', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
 Route::post('/creater-or-update', [App\Http\Controllers\BookingController::class, 'createOrUpdate'])->name('creater.or.update');
 

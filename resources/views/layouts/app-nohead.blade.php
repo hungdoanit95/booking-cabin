@@ -111,6 +111,9 @@
             background-position: right calc(0.375em + 0.2335rem) center;
             background-size: calc(0.75em + 0.467rem) calc(0.75em + 0.467rem);
         }
+        #alert-group .text-success{
+            text-align: center;
+        }
         @media (max-width: 768px){
             .btn-item button{
                 margin-bottom: 10px;

@@ -1,11 +1,29 @@
 @extends('layouts.app-nohead')
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<style>
+    .btn-search{
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 6px 15px;
+        z-index: 2;
+    }
+    .card-header h2{
+        font-size: 22px;
+    }
+</style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><h2>{{ __('Đăng ký học Cabin') }}</h2></div>
+                <div class="card-header" style="position: relative;">
+                    <h2>{{ __('Đăng ký học Cabin') }}</h2>
+                    <a href="/tim-kiem" class="btn btn-info btn-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
