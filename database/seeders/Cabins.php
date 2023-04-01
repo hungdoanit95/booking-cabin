@@ -17,23 +17,15 @@ class Cabins extends Seeder
         $cabins = array(
             array(
                 'id' => 1,
-                'name' => 'Cabin số 1',
+                'name' => 'Bình Dương',
             ),
             array(
                 'id' => 2,
-                'name' => 'Cabin số 2',
+                'name' => 'Đồng Nai',
             ),
             array(
                 'id' => 3,
-                'name' => 'Cabin số 3',
-            ),
-            array(
-                'id' => 4,
-                'name' => 'Cabin số 4',
-            ),
-            array(
-                'id' => 5,
-                'name' => 'Cabin số 5',
+                'name' => 'Bà Rịa - Vũng Tàu',
             ),
         );
         foreach($cabins as $cabin){

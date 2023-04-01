@@ -49,35 +49,35 @@ class TimeBooks extends Seeder
             ),
             array(
                 'time_id' => 9,
-                'time_value' => '14h30 - 15h30',
+                'time_value' => '14h00 - 15h00',
             ),
             array(
                 'time_id' => 10,
-                'time_value' => '15h30 - 16h30',
+                'time_value' => '15h00 - 16h00',
             ),
             array(
                 'time_id' => 11,
-                'time_value' => '16h30 - 17h30',
+                'time_value' => '16h00 - 17h00',
             ),
             array(
                 'time_id' => 12,
-                'time_value' => '17h30 - 18h30',
+                'time_value' => '17h00 - 18h00',
             ),
             array(
                 'time_id' => 13,
-                'time_value' => '18h30 - 19h30',
+                'time_value' => '18h00 - 19h00',
             ),
             array(
                 'time_id' => 14,
-                'time_value' => '19h30 - 20h30',
+                'time_value' => '19h00 - 20h00',
             ),
             array(
                 'time_id' => 15,
-                'time_value' => '20h30 - 21h30',
+                'time_value' => '20h00 - 21h00',
             ),
             array(
                 'time_id' => 16,
-                'time_value' => '21h30 - 22h30',
+                'time_value' => '21h00 - 22h00',
             ),
         );
         foreach($time_books as $time_book){

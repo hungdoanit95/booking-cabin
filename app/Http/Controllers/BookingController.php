@@ -24,7 +24,6 @@ class BookingController extends Controller
         || empty($request->time_val)
         || empty($request->date_val)
         || empty($request->name_val)
-        || empty($request->email_val)
         || empty($request->telephone_val)){
             return redirect()->back()->width('msg', 'Vui lòng kiểm tra lại dữ liệu'); 
         }
@@ -68,7 +67,7 @@ class BookingController extends Controller
     public function findBooking(Request $request){
         $data = array();
         if(!empty($request->date_register) && !empty($request->keywords)){
-            $keyword = $request->keywords;
+            $keyword = !empty($request->keywords)?$request->keywords:'';
             $bookings = Booking::leftjoin('cabins','cabins.id','booking_cabin.cabin_id')->leftjoin('timebooks','timebooks.time_id','booking_cabin.time_id')->where('date_booking',$request->date_register)->where(function ($q) use ($keyword){
                 $q->where('telephone_booking',$keyword)
                 ->orWhere('name_booking',$keyword);

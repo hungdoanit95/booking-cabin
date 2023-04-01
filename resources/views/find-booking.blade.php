@@ -36,8 +36,12 @@
                         <input class="form-control" id="date-register" name="date_register" value="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
                     </div>
                     <div class="form-group">
-                        <h6>Từ khoá</h6> <div id="alert-name"></div>
-                        <input class="form-control" id="keywords" name="keywords" type="text" placeholder="Nhập học tên hoặc số điện thoại tìm kiếm">
+                        <h6>Số điện thoại</h6> <div id="alert-name"></div>
+                        <input class="form-control" id="keywords" name="keywords" type="text" placeholder="Nhập số điện thoại tìm kiếm">
+                    </div>
+                    <div class="form-group">
+                        <h6>Otp</h6> <div id="alert-name"></div>
+                        <input class="form-control" id="keywords" name="keywords" type="text" placeholder="Nhập mã otp đã được gửi trước đó">
                     </div>
                     <div class="form-group">
                         <button class="form-control btn btn-success" type="button" id="search-booking">Tra cứu</button>
@@ -74,10 +78,9 @@
                                 response.data.map((item)=>(`<li class="item">` + 
                                     `<p>Học viên: `+item.name_booking+`</p>` + 
                                     `<p>Điện thoại: `+item.telephone_booking+`</p>` + 
-                                    `<p>Email: `+item.email_booking+`</p>` + 
                                     `<p>Ngày học: `+item.date_booking+`</p>` + 
                                     `<p>Thời gian học: `+item.time_value+`</p>`+
-                                    `<p>Cabin: `+item.name+`</p></li>`
+                                    `<p>Điểm thi: `+item.name+`</p></li>`
                                 ));
                             + `</ul>
                         </div>

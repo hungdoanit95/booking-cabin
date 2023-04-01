@@ -14,6 +14,19 @@
     }
     .card-header h2{
         font-size: 22px;
+        margin-top: 30px;
+    }
+    .list-cabin{
+        justify-content: center;
+    }
+    .list-cabin li{
+        margin-right: 10px;
+        padding: 10px 5px;
+        width: 45%
+    }
+    .list-cabin li a{
+        font-size: 12px;
+        width: 100%;
     }
 </style>
 <div class="container">
@@ -21,7 +34,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header" style="position: relative;">
-                    <h2>{{ __('Đăng ký học Cabin') }}</h2>
+                    <h2>{{ __('Đăng ký trải nghiệm Cabin') }}</h2>
+                    <p>140 Cộng Hòa, P.4, Q. Tân Bình, Hồ Chí Minh (Tầng 10 - Trường ĐH Văn Hóa Nghệ Thuật Quân Đội - phía sau Nhà hát Quân Đội)</p>
                     <a href="/tim-kiem" class="btn btn-info btn-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                 </div>
 
@@ -33,24 +47,31 @@
                     @endif
                     <div class="form-group" id="alert-group">
                     </div>
+                    <div class="form-group" style="position: relative">
+                        <h6>Số điện thoại học viên <span style="color: #f00">(*)</span></h6> <div id="alert-telephone"></div>
+                        <p>Nhập đúng số điện thoại khi đăng ký hồ sơ</p>
+                        <input class="form-control" type="telephone" id="telephone-register" name="telephone_register" placeholder="Số điện thoại học viên">
+                        <span style=" position: absolute;
+                        top: calc(50% + 16px);
+                        right: 5px;
+                        padding: 5px;
+                        background: #ddd;">Lấy mã OTP</span>
+                    </div>
                     <div class="form-group">
-                        <h6>Ngày đăng ký</h6> <div id="alert-date"></div>
-                        <input class="form-control" id="date-register" name="date_register" value="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
+                        <h6>Mã OTP <span style="color: #f00">(*)</span></h6> <div id="alert-otp"></div>
+                        <p>Học viên lưu lại mã OTP để dùng xuyên suốt quá trình học.</p>
+                        <input class="form-control" id="name-otp" name="otp_register" type="text" placeholder="Nhập mã OTP nhận được">
                     </div>
                     <div class="form-group">
                         <h6>Họ tên học viên</h6> <div id="alert-name"></div>
-                        <input class="form-control" id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
+                        <input readonly class="form-control" id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <h6>Email học viên (nếu có)</h6> <div id="alert-email"></div>
                         <input class="form-control" type="email" id="email-register" name="email_register" placeholder="Email học viên">
-                    </div>
-                    <div class="form-group">
-                        <h6>Số điện thoại học viên</h6> <div id="alert-telephone"></div>
-                        <input class="form-control" type="telephone" id="telephone-register" name="telephone_register" placeholder="Số điện thoại học viên">
-                    </div>
-                    <div class="form-group">
-                        <h6>Cabin</h6> <div id="alert-cabin"></div>
+                    </div> --}}
+                    {{-- <div class="form-group">
+                        <h6>Điểm thi lúc đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-cabin"></div>
                         <ul class="list-cabin" id="cabin-register">
                             @foreach ($cabins as $cabin)
                                 <li>
@@ -59,29 +80,43 @@
                             @endforeach
                         </ul>
                         <input name="cabin_number" id="cabin-number" type="hidden" />
+                    </div> --}}
+                    <div class="form-group">
+                        <h6>Ngày đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
+                        <input class="form-control" id="date-register" name="date_register" value="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
                     </div>
                     <div class="form-group">
-                      <h6>Thời gian học</h6> <div id="alert-time"></div>
+                      <h6>Thời gian học <span style="color: #f00">(*)</span></h6> <div id="alert-time"></div>
                       <div id="time-register">
-                        <swiper-container>
+                        {{-- <swiper-container> --}}
                           @foreach($time_books as $time_book)
-                          <swiper-slide>
+                          {{-- <swiper-slide> --}}
                               <div class="slide-item">
+                                <div class="btn-item">
                                   @foreach($time_book as $books)
-                                      <div class="btn-item">
-                                          @foreach($books as $book)
-                                              <button html-value="{{ $book['time_id'] }}" type="button" class="btn btn-info mt-1">
-                                                  {{ $book['time_value'] }}
-                                              </button>
-                                          @endforeach
-                                      </div>
+                                    @foreach($books as $book)
+                                        <button html-value="{{ $book['time_id'] }}" type="button" class="btn btn-info mt-1">
+                                            {{ $book['time_value'] }}
+                                        </button>
+                                    @endforeach
                                   @endforeach
+                                </div>
                               </div>
-                          </swiper-slide>
+                          {{-- </swiper-slide> --}}
                           @endforeach
-                        </swiper-container>
+                        {{-- </swiper-container> --}}
                         <input id="time-choose" name="time_choose" type="hidden">
                       </div>
+                    </div>
+                    <div class="form-group">
+                        <h6>Ghi chú</h6>
+                        <textarea class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <p style="color: #f00; font-family: Arial">Lưu ý: Học viên đăng ký trải nghiệm Cabin nhưng không đến được vui lòng hủy lịch trước 48h. 
+                            <br/>Trường hợp không hủy hoặc không được hủy, thời gian trải nghiệm vẫn được tính chi phí cho học viên
+                         </p>
+                        <p style="color: #000"><input type="checkbox" /> Tôi đồng ý với lưu ý trên</p>
                     </div>
                     <div class="form-group">
                         <button class="form-control btn btn-success" type="button" id="btn-booking">Đặt lịch</button>
