@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('Bạn đã đăng nhập thành công!') }}
+                    <button class="btn btn-info">Lấy dữ liệu</button>
                 </div>
             </div>
         </div>
