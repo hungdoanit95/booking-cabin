@@ -78,7 +78,7 @@ class GoogleSheetCommand extends Command
 
   public function readFileGoogleSheet($service){
 		$spreadsheetId = env('GOOGLE_SHEET_ID');
-		$range = 'HỌC VIÊN!A2:DG';
+		$range = 'HocVien!A2:DG';
 		// get values
 		Log::debug($spreadsheetId);
 		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
@@ -120,10 +120,10 @@ class GoogleSheetCommand extends Command
      */
     public function handle()
     {
-      Log::debug('start update sheet 1 data');
-      // $client = $this->getGoogleClient();
-      // $service = new Google_Service_Sheets($client);
-      // //Get Value
-      // $this->readFileGoogleSheet($service);
+      // Log::debug('start update sheet 1 data');
+      $client = $this->getGoogleClient();
+      $service = new Google_Service_Sheets($client);
+      //Get Value
+      $this->readFileGoogleSheet($service);
     }
 }
