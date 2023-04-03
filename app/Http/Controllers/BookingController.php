@@ -123,4 +123,11 @@ class BookingController extends Controller
             'status' => 1,
         ]);
     }
+    
+    public function privacyPolicy(){
+        return 0;
+    }
+    public function termsOfService(){
+        return 0;
+    }
 }

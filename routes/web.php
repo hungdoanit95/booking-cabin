@@ -24,5 +24,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::post('/check-time-cabin', [App\Http\Controllers\BookingController::class, 'checkTimeCabin'])->name('check.time.cabin');
 Route::get('/get-data-google-sheet', [App\Http\Controllers\HomeController::class, 'getDataGoogleSheet'])->name('get.data.google-sheet');
 Route::get('/callback', [App\Http\Controllers\HomeController::class, 'callbackGoogleSheet'])->name('callback');
-Route::get('/terms-of-service', [App\Http\Controllers\HomeController::class, 'termsOfService'])->name('terms.of.service');
-Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/terms-of-service', [App\Http\Controllers\BookingController::class, 'termsOfService'])->name('terms.of.service');
+Route::get('/privacy-policy', [App\Http\Controllers\BookingController::class, 'privacyPolicy'])->name('privacy.policy');
