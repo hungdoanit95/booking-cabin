@@ -8,6 +8,7 @@ use Google_Client;
 use Google_Service_Sheets;
 use Exception;
 use Log;
+use DB;
 
 class GoogleSheetCommand extends Command
 {
@@ -84,6 +85,11 @@ class GoogleSheetCommand extends Command
 		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
 		$values = $response->getValues();
 		Log::debug($values);
+    if(count($values) > 0){
+      foreach($values as $value){
+
+      }
+    }
 		return $values;
   }
 
