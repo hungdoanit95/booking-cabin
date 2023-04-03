@@ -121,10 +121,9 @@ class GoogleSheetCommand extends Command
     public function handle()
     {
       Log::debug('start update sheet 1 data');
-      $client = $this->getGoogleClient();
-      $service = new Google_Service_Sheets($client);
-      //Get Value
-      $this->readFileGoogleSheet($service);
-      return 0;
+      // $client = $this->getGoogleClient();
+      // $service = new Google_Service_Sheets($client);
+      // //Get Value
+      // $this->readFileGoogleSheet($service);
     }
 }
