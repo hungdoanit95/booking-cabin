@@ -74,8 +74,44 @@ class GoogleSheetCommand extends Command
    	}
 
    	return $client;
-   }
+  }
 
+  public function readFileGoogleSheet($service){
+		$spreadsheetId = env('GOOGLE_SHEET_ID');
+		$range = 'HỌC VIÊN!A2:DG';
+		// get values
+		Log::debug($spreadsheetId);
+		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
+		$values = $response->getValues();
+		Log::debug($values);
+		return $values;
+  }
+
+   public function updateGoogleSheet(){
+		$data = [
+			[
+				'column A2',
+				'column B2',
+				'column C2',
+				'column D2',
+			],
+			[
+				'column A3',
+				'column B3',
+				'column C3',
+				'column D3',
+			],
+		];
+		$requestBody = new \Google_Service_Sheets_ValueRange([
+			'values' => $data
+		]);
+
+		$params = [
+			'valueInputOption' => 'RAW'
+		];
+
+		$service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
+  }
 
     /**
      * Execute the console command.
@@ -84,43 +120,11 @@ class GoogleSheetCommand extends Command
      */
     public function handle()
     {
-        Log::debug('start update sheet 1 data');
-		$client = $this->getGoogleClient();
-		$service = new Google_Service_Sheets($client);
-		$spreadsheetId = env('GOOGLE_SHEET_ID');
-		$range = '13A!A2:N';
-
-		// get values
-		Log::debug($spreadsheetId);
-		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
-		$values = $response->getValues();
-		Log::debug($values);
-		// // add/edit values
-		// $data = [
-		// 	[
-		// 		'column A2',
-		// 		'column B2',
-		// 		'column C2',
-		// 		'column D2',
-		// 	],
-		// 	[
-		// 		'column A3',
-		// 		'column B3',
-		// 		'column C3',
-		// 		'column D3',
-		// 	],
-		// ];
-		// $requestBody = new \Google_Service_Sheets_ValueRange([
-		// 	'values' => $data
-		// ]);
-
-		// $params = [
-		// 	'valueInputOption' => 'RAW'
-		// ];
-
-		// $service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
-		// echo "SUCCESS \n";
-		// Log::debug('update sheet 1 data success');
-        return 0;
+      Log::debug('start update sheet 1 data');
+      $client = $this->getGoogleClient();
+      $service = new Google_Service_Sheets($client);
+      //Get Value
+      $this->readFileGoogleSheet($service);
+      return 0;
     }
 }
