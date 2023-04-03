@@ -59,4 +59,10 @@ class HomeController extends Controller
           $content = requestSheetdb('https://sheetdb.io/api/v1/8q04pf4lyad35');
           return $content;
     }
+    public function privacyPolicy(){
+        return 0;
+    }
+    public function termsOfService(){
+        return 0;
+    }
 }
