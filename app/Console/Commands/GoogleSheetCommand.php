@@ -77,6 +77,12 @@ class GoogleSheetCommand extends Command
    	return $client;
   }
 
+  public function insertDatabase($value = array()){
+    if(count($value) > 0){
+      // DB
+    }
+  }
+
   public function readFileGoogleSheet($service){
 		$spreadsheetId = env('GOOGLE_SHEET_ID');
 		$range = 'HocVien!A2:DG';
