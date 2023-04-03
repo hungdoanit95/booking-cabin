@@ -93,35 +93,33 @@ class GoogleSheetCommand extends Command
 		// get values
 		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
 		$values = $response->getValues();
+		Log::debug($values);
+		// // add/edit values
+		// $data = [
+		// 	[
+		// 		'column A2',
+		// 		'column B2',
+		// 		'column C2',
+		// 		'column D2',
+		// 	],
+		// 	[
+		// 		'column A3',
+		// 		'column B3',
+		// 		'column C3',
+		// 		'column D3',
+		// 	],
+		// ];
+		// $requestBody = new \Google_Service_Sheets_ValueRange([
+		// 	'values' => $data
+		// ]);
 
-		print_r($values);
+		// $params = [
+		// 	'valueInputOption' => 'RAW'
+		// ];
 
-		// add/edit values
-		$data = [
-			[
-				'column A2',
-				'column B2',
-				'column C2',
-				'column D2',
-			],
-			[
-				'column A3',
-				'column B3',
-				'column C3',
-				'column D3',
-			],
-		];
-		$requestBody = new \Google_Service_Sheets_ValueRange([
-			'values' => $data
-		]);
-
-		$params = [
-			'valueInputOption' => 'RAW'
-		];
-
-		$service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
-		echo "SUCCESS \n";
-		Log::debug('update sheet 1 data success');
+		// $service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
+		// echo "SUCCESS \n";
+		// Log::debug('update sheet 1 data success');
         return 0;
     }
 }
