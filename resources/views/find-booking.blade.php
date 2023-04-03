@@ -70,6 +70,7 @@
             dataType: 'json',
             success: function(response){
                 console.log(response);
+                let status_label = 'Chưa xác nhận';
                 if(response.status){
                     let data_html = `
                         <div class="content">
@@ -80,7 +81,7 @@
                                     `<p>Điện thoại: `+item.telephone_booking+`</p>` + 
                                     `<p>Ngày học: `+item.date_booking+`</p>` + 
                                     `<p>Thời gian học: `+item.time_value+`</p>`+
-                                    `<p>Điểm thi: `+item.name+`</p></li>`
+                                    `<p>Tình trạng: <span>`+status_label+`</span></p></li>`
                                 ));
                             + `</ul>
                         </div>
@@ -99,4 +100,20 @@
         });
     });
 </script>
+<style>
+    .list-result li{
+        background: #ffefde;
+        padding: 15px;
+        border-radius: 10px;
+        color: #000;
+    }
+    .list-result li span{
+        background: #f00;
+        padding: 5px;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 12px;
+        box-shadow: 2px 2px 10px #fff;
+    }
+</style>
 @endsection

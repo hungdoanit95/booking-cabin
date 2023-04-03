@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Google_Client;
-use Google_Service_Gmail;
+use SheetDB\SheetDB;
+
 
 class HomeController extends Controller
 {
@@ -28,15 +28,35 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function callbackGoogleSheet(Request $request){
+        return $request;
+    }
+
     public function getDataGoogleSheet(){
-        $client = new Google_Client();
-        $client->setAuthConfig(config_path('credentials.json'));
-        $client->addScope(Google_Service_Sheets::SPREADSHEETS_READONLY);
-        $service = new Google_Service_Sheets($client);
-        $spreadsheetId = '1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ';
-        $range = 'Sheet1!A1:E';
-        $response = $service->spreadsheets_values->get($spreadsheetId, $range);
-        $values = $response->getValues();
-        return $values;
+        function requestSheetdb($url, $method = 'GET', $data = []) {
+
+            $options = array(
+              'http' => array(
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'method'  => strtoupper($method),
+                'content' => http_build_query([
+                  'data' => $data
+                ])
+              )
+            );
+          
+            try {
+              $raw = @file_get_contents($url, false, stream_context_create($options));
+              $result = json_decode($raw);
+            } catch (Exception $e) {
+              return false;
+            }
+          
+            return $result;
+          }
+          
+          // returns all spreadsheets data
+          $content = requestSheetdb('https://sheetdb.io/api/v1/8q04pf4lyad35');
+          return $content;
     }
 }

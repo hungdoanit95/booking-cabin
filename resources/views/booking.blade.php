@@ -64,7 +64,7 @@
                     </div>
                     <div class="form-group">
                         <h6>Họ tên học viên</h6> <div id="alert-name"></div>
-                        <input readonly class="form-control" id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
+                        <input  class="form-control" id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
                     </div>
                     {{-- <div class="form-group">
                         <h6>Email học viên (nếu có)</h6> <div id="alert-email"></div>
@@ -214,15 +214,6 @@
                     check_click_cabin = check_click_cabin + 1;
                 }
             });
-
-            if(check_click_cabin == 0){
-                Swal.fire({
-                    title: 'Lưu ý!',
-                    text: 'Vui lòng chọn Cabin trước khi chọn thời gian học',
-                    icon: 'warning'
-                })
-                return;
-            }
             
             if($(this).hasClass('btn-default')){
                 Swal.fire({
