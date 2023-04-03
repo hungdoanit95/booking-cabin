@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "emerald-cacao-382518",
+  "private_key_id": "2952fa75cf8aca231822c91665a3749b57507304",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDed2gkUXvsicx8\nyB97JQsVOj8BNmjevpdEeZfStN4D21bNDUmVTXOaM0Je4hrJcWj+Q9hgQM8lvElK\nFdGAvBZmiuPTfJHRG5Cz1rS96lrDE6SwCrGBn7fIGZHeBF2+zkMkO44lL7xjBAc6\nxAcONs+AHgZQPEHqItof1ShyfryUh8aQuJ2ZrqWIWMCGNeMX+83C47URNybcf6Ac\nrydB58YW2PhUZ6UWHhEytIn8rd89cbc+jOWaw9t6EjhKAgl9VklYcnm10jLyB9Tq\nFUnzcT7f9Z/qVlbHRIPRJRcXhkZ7yd2iN0Gpk+Ad+eW7q6Zy14eM2WNPmT/VBvut\n3mBMbBJbAgMBAAECggEAR6iCvSAaIMkKOy9jJJF8DmximwthoE4X/5CDHPXxhaCD\nRy1+hD8ce5EDUfjW1AhZ330PF4IIt4j8uoZoo2TyejlGxXqcpZSRebwxH/N7JNcQ\n9zuajbxawHOsDq2tXKan7eXZFZVYwzQq9/zooOV61TPWqMWgHcD4LcTFcIvuRpET\nv8Etnufd/PHRbX7F/Z1F3c0gYBCbCbgsrgXp5fzLFGP/0lDBjgVPmPykr3PpPGst\ngyXNG4goOTfL+4yjjlik9uWWru6xrK6MilIxLPiPHbLgvGSnwhDMJ55/o03XQAIX\nRK2JlLHnscHXpelhleygW53JoxGbpFSuQP7kiVWRcQKBgQD4qabl6xjp3fTrKJ2Y\nbhvvbUF4fLM/IWqyUvlcNpPeVjYtvjKlmCRW65zRy6rRhFNDYmGWdo4p/38rsxOB\nze6ZqyU0hx3ak7uolerHvHPaH7+LzQb1vgKwEEVtT2xtnPcs+g1GD84SlIr8VAuc\nbRIUgpNtHassKvoN7GcH03Ud9wKBgQDlB9+d04ehdiY/jrsaLOD3WfzGOxp7/bFJ\n+YHkBue4TCfSS7EnxLaxyQSWTr1vwOAMUO+RlLuHgLwSfb+odupNSM+qEodrakzv\nOP4ng+0qqNrUgV1lXm4ctED0Y5leEx9XWDzTMNtDSy3YgLcowrsdIT1u8eJzWL9b\njp24kFHlvQKBgQCZDUMO7T9uYxFm1J77vXowSl0r3gUt7FGR5QRav7UP+pxqV1Ex\nH43ueiMR9nvzbbEaHqnWRK6IJxyNNzHgiXI831yNEkVLzfaJc40I13OvZC8vy0hn\nZUaeO8Wf3Gzuoth4tIgLAZtjUE6jtM9YvsGMIjq/xK0hCGrUuxdHd930TQKBgE8F\njG4UEfPvo/rB8GRzn5s4fTKYKecl/QmdAOgASesYu5SfcRxbjv2Acgi6Wjo4vhUB\nx+be/mUeUcW/hWVGwkiwGpZ/liHFp43SiD5yEl5prDct+1+CWVOmDdNEmiIPTv0A\nANyNOtnZEpRktM1ngs/mLCAfbRaHRF7+sgSAJwGxAoGATAkWIgzPUh0gyRFSsf6F\nkvxKJ1YmqwueZ75DT01BZ64cTNALtLkVqyuyIEq656XKOADhIS2iOmwCS3Cg85TB\nmK3ZZixbK65v5RxaiAnbqCHZC2wTL8bxdgcfO+HTmwgTTCSzhWCTfminfzLQIjPR\nbXsq0HgxSpJW3RBSbIvJlew=\n-----END PRIVATE KEY-----\n",
+  "client_email": "googlesheet-innbivn@emerald-cacao-382518.iam.gserviceaccount.com",
+  "client_id": "110041534956953590538",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/googlesheet-innbivn%40emerald-cacao-382518.iam.gserviceaccount.com"
+}

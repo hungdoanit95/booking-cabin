@@ -88,9 +88,10 @@ class GoogleSheetCommand extends Command
 		$client = $this->getGoogleClient();
 		$service = new Google_Service_Sheets($client);
 		$spreadsheetId = env('GOOGLE_SHEET_ID');
-		$range = 'Sheet1!A2:D';
+		$range = '13A!A2:N';
 
 		// get values
+		Log::debug($spreadsheetId);
 		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
 		$values = $response->getValues();
 		Log::debug($values);
