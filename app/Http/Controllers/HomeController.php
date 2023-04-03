@@ -28,10 +28,6 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function callbackGoogleSheet(Request $request){
-        return $request;
-    }
-
     public function getDataGoogleSheet(){
         function requestSheetdb($url, $method = 'GET', $data = []) {
 

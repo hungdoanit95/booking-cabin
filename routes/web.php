@@ -23,6 +23,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/check-time-cabin', [App\Http\Controllers\BookingController::class, 'checkTimeCabin'])->name('check.time.cabin');
 Route::get('/get-data-google-sheet', [App\Http\Controllers\HomeController::class, 'getDataGoogleSheet'])->name('get.data.google-sheet');
-Route::get('/callback', [App\Http\Controllers\HomeController::class, 'callbackGoogleSheet'])->name('callback');
+Route::get('/callback', [App\Http\Controllers\BookingController::class, 'callbackGoogleSheet'])->name('callback');
 Route::get('/terms-of-service', [App\Http\Controllers\BookingController::class, 'termsOfService'])->name('terms.of.service');
 Route::get('/privacy-policy', [App\Http\Controllers\BookingController::class, 'privacyPolicy'])->name('privacy.policy');

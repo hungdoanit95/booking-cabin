@@ -130,4 +130,8 @@ class BookingController extends Controller
     public function termsOfService(){
         return 0;
     }
+    
+    public function callbackGoogleSheet(Request $request){
+        return $request;
+    }
 }
