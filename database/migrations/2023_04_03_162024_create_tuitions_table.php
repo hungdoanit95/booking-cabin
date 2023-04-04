@@ -19,6 +19,7 @@ class CreateTuitionsTable extends Migration
             $table->string('tuition_total'); // Cột G:
             $table->string('tuition_paid'); // Cột H:
             $table->string('tuition_unpaid'); // Cột I:
+            $table->integer('student_id');
             $table->timestamps();
         });
     }

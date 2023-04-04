@@ -15,6 +15,7 @@ class CreateGiftAndTimeTable extends Migration
     {
         Schema::create('gift_and_time', function (Blueprint $table) {
             $table->id();
+            $table->integer('student_id');
             $table->integer('books'); // Cột AC Phát sách 600 câu
             $table->string('gifts'); // Cột AD Quà tặng (nếu có)
             $table->string('tuition_solid'); // Cột AE HỌC PHÍ CHUẨN
