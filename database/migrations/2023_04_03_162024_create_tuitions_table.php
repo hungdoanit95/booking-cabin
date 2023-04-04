@@ -15,10 +15,10 @@ class CreateTuitionsTable extends Migration
     {
         Schema::create('tuitions', function (Blueprint $table) {
             $table->id();
-            $table->integer('certificate_id'); // Cột F: Hạng
-            $table->string('tuition_total'); // Cột G:
-            $table->string('tuition_paid'); // Cột H:
-            $table->string('tuition_unpaid'); // Cột I:
+            $table->integer('certificate_id')->nullable(); // Cột F: Hạng
+            $table->string('tuition_total')->nullable(); // Cột G:
+            $table->string('tuition_paid')->nullable(); // Cột H:
+            $table->string('tuition_unpaid')->nullable(); // Cột I:
             $table->integer('student_id');
             $table->timestamps();
         });

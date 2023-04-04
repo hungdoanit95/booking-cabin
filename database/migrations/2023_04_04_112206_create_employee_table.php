@@ -16,14 +16,14 @@ class CreateEmployeeTable extends Migration
         Schema::create('employee', function (Blueprint $table) {
             $table->id();
             $table->integer('student_id');
-            $table->string('clue'); // Cột U Đầu mối
-            $table->string('call'); // Cột V Call
-            $table->string('sale'); // Cột W Sale
-            $table->string('register'); // Cột X Ghi danh tại văn phòng
-            $table->string('schedule_price'); // Cột Y Lịch Trình Đóng Tiền (Như trên hợp đồng)
-            $table->string('misa_name'); // Cột Z Tên Misa
-            $table->string('misa_year'); // Cột AA Năm
-            $table->string('misa_month'); // Cột AB tháng
+            $table->string('clue')->nullable(); // Cột U Đầu mối
+            $table->string('call')->nullable(); // Cột V Call
+            $table->string('sale')->nullable(); // Cột W Sale
+            $table->string('register')->nullable(); // Cột X Ghi danh tại văn phòng
+            $table->text('schedule_price')->nullable(); // Cột Y Lịch Trình Đóng Tiền (Như trên hợp đồng)
+            $table->string('misa_name')->nullable(); // Cột Z Tên Misa
+            $table->string('misa_year')->nullable(); // Cột AA Năm
+            $table->string('misa_month')->nullable(); // Cột AB tháng
             $table->timestamps();
         });
     }

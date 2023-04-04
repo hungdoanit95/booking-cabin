@@ -15,7 +15,7 @@ class CreateCertificatesTable extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->string('certificate_name'); // Cột F: Hạng
+            $table->string('certificate_name')->nullable(); // Cột F: Hạng
             $table->timestamps();
         });
     }

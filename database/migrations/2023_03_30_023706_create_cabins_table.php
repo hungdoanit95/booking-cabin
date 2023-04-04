@@ -15,7 +15,7 @@ class CreateCabinsTable extends Migration
     {
         Schema::create('cabins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateTimebooksTable extends Migration
     {
         Schema::create('timebooks', function (Blueprint $table) {
             $table->integer('time_id')->increments();
-            $table->string('time_value');
+            $table->string('time_value')->nullable();
             $table->timestamps();
         });
     }

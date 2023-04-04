@@ -15,12 +15,12 @@ class CreateBookingCabinTable extends Migration
     {
         Schema::create('booking_cabin', function (Blueprint $table) {
             $table->id();
-            $table->string('cabin_id');
-            $table->string('time_id');
-            $table->date('date_booking');
-            $table->string('name_booking');
+            $table->string('cabin_id')->nullable();
+            $table->string('time_id')->nullable();
+            $table->date('date_booking')->nullable();
+            $table->string('name_booking')->nullable();
             $table->string('email_booking')->nullable();
-            $table->string('telephone_booking');
+            $table->string('telephone_booking')->nullable();
             $table->timestamps();
         });
     }

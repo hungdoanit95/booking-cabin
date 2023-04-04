@@ -99,78 +99,78 @@ class GoogleSheetCommand extends Command
 			$values = $response->getValues();
 			if(count($values) > 0){
 				foreach($values as $value){
-					if(!empty($value[1]) || !empty($value[2])){ // Tồn tại mã học viên hoặc tên học viên
+					if(isset($value[1]) || isset($value[2])){ // Tồn tại mã học viên hoặc tên học viên
 						DB::beginTransaction();
 						try{
 							DB::table('students')->updateOrInsert([
-								'student_code' => !empty($value[1])?$value[1]:'', // Cột B: Mã HV
-								'telephone' =>  !empty($value[11])?$value[11]:'', // Cột L Điện thoại
+								'student_code' => isset($value[1])?$value[1]:'', // Cột B: Mã HV
+								'telephone' =>  isset($value[11])?$value[11]:'', // Cột L Điện thoại
 							],[
-								'time_hidden' => !empty($value[0])?date('Y-m-d', strtotime($value[0])):'', // Cột A: Dấu thời gian
-								'student_name' =>  !empty($value[2])?$value[2]:'', // Cột C: Họ và Tên học viên
-								'course_code' =>  !empty($value[3])?$value[3]:'', // Cột D: Khóa
-								'course_planed' =>  !empty($value[4])?$value[4]:'', // Cột E: Khoá dự kiến Dành cho CSKH
-								'birthday' =>  !empty($value[9])?date('Y-m-d', strtotime($value[9])):'', // Cột J Ngày sinh
-								'address' =>  !empty($value[10])?$value[10]:'', // Cột k Địa chỉ
-								'telephone2' =>  !empty($value[11])?$value[11]:'', // Cột M SDT khác
-								'id_student' =>  !empty($value[12])?$value[12]:'', // Cột N CMND
-								'date_give_card' => !empty($value[13])?date('Y-m-d', strtotime($value[13])):'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
+								'time_hidden' => isset($value[0])?date('Y-m-d', strtotime($value[0])):'', // Cột A: Dấu thời gian
+								'student_name' =>  isset($value[2])?$value[2]:'', // Cột C: Họ và Tên học viên
+								'course_code' =>  isset($value[3])?$value[3]:'', // Cột D: Khóa
+								'course_planed' =>  isset($value[4])?$value[4]:'', // Cột E: Khoá dự kiến Dành cho CSKH
+								'birthday' =>  isset($value[9])?date('Y-m-d', strtotime($value[9])):'', // Cột J Ngày sinh
+								'address' =>  isset($value[10])?$value[10]:'', // Cột k Địa chỉ
+								'telephone2' =>  isset($value[11])?$value[11]:'', // Cột M SDT khác
+								'id_student' =>  isset($value[12])?$value[12]:'', // Cột N CMND
+								'date_give_card' => isset($value[13])?date('Y-m-d', strtotime($value[13])):'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
 							]);
 							$student_id = DB::getPdo()->lastInsertId();
 							DB::table('certificates')->updateOrInsert([
-								'certificate_name' => !empty($value[5])?$value[5]:'', // Cột F: Hạng
+								'certificate_name' => isset($value[5])?$value[5]:'', // Cột F: Hạng
 							],[
-								'certificate_name' => !empty($value[5])?$value[5]:'', // Cột F: Hạng
+								'certificate_name' => isset($value[5])?$value[5]:'', // Cột F: Hạng
 							]);
 							$certificate_id = DB::getPdo()->lastInsertId();
 							DB::table('tuitions')->updateOrInsert([
-								'certificate_id' => !empty($certificate_id)?$certificate_id:'', // Cột F: Hạng
-								'student_id' => !empty($student_id)?$student_id:''
+								'certificate_id' => isset($certificate_id)?$certificate_id:'', // Cột F: Hạng
+								'student_id' => isset($student_id)?$student_id:''
 							],[
-								'tuition_total' => !empty($value[6])?$value[6]:'', // Cột G:
-								'tuition_paid' => !empty($value[7])?$value[7]:'', // Cột H:
-								'tuition_unpaid' => !empty($value[8])?$value[8]:'', // Cột I:
+								'tuition_total' => isset($value[6])?$value[6]:'', // Cột G:
+								'tuition_paid' => isset($value[7])?$value[7]:'', // Cột H:
+								'tuition_unpaid' => isset($value[8])?$value[8]:'', // Cột I:
 							]);
 							DB::table('courses')->updateOrInsert([
-								'student_id' => !empty($student_id)?$student_id:''
+								'student_id' => isset($student_id)?$student_id:''
 							],[
-								'time_practice' => !empty($value[15])?$value[15]:'',
-								'address_practice' => !empty($value[16])?$value[16]:'',
-								'total_time' => !empty($value[17])?$value[17]:'',
-								'time_practiced' => !empty($value[18])?$value[18]:'',
-								'time_unpracticed' => !empty($value[19])?$value[19]:'',
+								'time_practice' => isset($value[15])?$value[15]:'',
+								'address_practice' => isset($value[16])?$value[16]:'',
+								'total_time' => isset($value[17])?$value[17]:'',
+								'time_practiced' => isset($value[18])?$value[18]:'',
+								'time_unpracticed' => isset($value[19])?$value[19]:'',
 							]);
 							DB::table('employee')->updateOrInsert([
-								'student_id' => !empty($student_id)?$student_id:''
+								'student_id' => isset($student_id)?$student_id:''
 							],[
-								'clue' => !empty($value[20])?$value[20]:'', // Cột U Đầu mối
-								'call' => !empty($value[21])?$value[21]:'', // Cột V Call
-								'sale' => !empty($value[22])?$value[22]:'', // Cột W Sale
-								'register' => !empty($value[23])?$value[23]:'', // Cột X Ghi danh tại văn phòng
-								'schedule_price' => !empty($value[24])?$value[24]:'', // Cột Y Lịch Trình Đóng Tiền (Như trên hợp đồng)
-								'misa_name' => !empty($value[25])?$value[25]:'', // Cột Z Tên Misa
-								'misa_year' => !empty($value[26])?$value[26]:'', // Cột AA Năm
-								'misa_month' => !empty($value[27])?$value[27]:'', // Cột AB tháng
+								'clue' => isset($value[20])?$value[20]:'', // Cột U Đầu mối
+								'call' => isset($value[21])?$value[21]:'', // Cột V Call
+								'sale' => isset($value[22])?$value[22]:'', // Cột W Sale
+								'register' => isset($value[23])?$value[23]:'', // Cột X Ghi danh tại văn phòng
+								'schedule_price' => isset($value[24])?$value[24]:'', // Cột Y Lịch Trình Đóng Tiền (Như trên hợp đồng)
+								'misa_name' => isset($value[25])?$value[25]:'', // Cột Z Tên Misa
+								'misa_year' => isset($value[26])?$value[26]:'', // Cột AA Năm
+								'misa_month' => isset($value[27])?$value[27]:'', // Cột AB tháng
 							]);
 							DB::table('gift_and_time')->updateOrInsert([
-								'student_id' => !empty($student_id)?$student_id:''
+								'student_id' => isset($student_id)?$student_id:''
 							],[
-								'books' => !empty($value[28])?$value[28]:'', // Cột AC Phát sách 600 câu
-								'gifts' => !empty($value[29])?$value[29]:'', // Cột AD Quà tặng (nếu có)
-								'tuition_solid' => !empty($value[30])?$value[30]:'', // Cột AE HỌC PHÍ CHUẨN
-								'money_discount_fullmoney' => !empty($value[31])?$value[31]:'', // Cột AF ĐÓNG HẾT HỌC PHÍ GIẢM TIỀN
-								'money_discount_in' => !empty($value[32])?$value[32]:'', // Cột AG TIỀN GIẢM TRONG CHƯƠNG TRÌNH
-								'money_discount_ex' => !empty($value[33])?$value[33]:'', // TIỀN GIẢM NGOÀI CHƯƠNG TRÌNH
-								'reg_group' => !empty($value[34])?$value[34]:'', // GIẢM ĐĂNG KÝ NHÓM/ GIỚI THIỆU
-								'total_tuition' => !empty($value[35])?$value[35]:'', // AJ TỔNG HỌC PHÍ SAU GIẢM
-								'compare' => !empty($value[36])?$value[36]:'', // AK ĐỐI CHIẾU LỆCH VỚI GIÁ SALES
+								'books' => isset($value[28])?$value[28]:'', // Cột AC Phát sách 600 câu
+								'gifts' => isset($value[29])?$value[29]:'', // Cột AD Quà tặng (nếu có)
+								'tuition_solid' => isset($value[30])?$value[30]:'', // Cột AE HỌC PHÍ CHUẨN
+								'money_discount_fullmoney' => isset($value[31])?$value[31]:'', // Cột AF ĐÓNG HẾT HỌC PHÍ GIẢM TIỀN
+								'money_discount_in' => isset($value[32])?$value[32]:'', // Cột AG TIỀN GIẢM TRONG CHƯƠNG TRÌNH
+								'money_discount_ex' => isset($value[33])?$value[33]:'', // TIỀN GIẢM NGOÀI CHƯƠNG TRÌNH
+								'reg_group' => isset($value[34])?$value[34]:'', // GIẢM ĐĂNG KÝ NHÓM/ GIỚI THIỆU
+								'total_tuition' => isset($value[35])?$value[35]:'', // AJ TỔNG HỌC PHÍ SAU GIẢM
+								'compare' => isset($value[36])?$value[36]:'', // AK ĐỐI CHIẾU LỆCH VỚI GIÁ SALES
 							]);
-							DB::table('money_cabin')->updateOrInsert([
-								'student_id' => !empty($student_id)?$student_id:''
-							],[
-								'date_payout'=>!empty($value[89])?$value[89]:'', // Cột CL NGÀY NỘP TRUNG TÂM
-								'cabin_money'=>!empty($value[90])?$value[90]:'' // Cột CM TIỀN CABIN
-							]);
+							// DB::table('money_cabin')->updateOrInsert([
+							// 	'student_id' => isset($student_id)?$student_id:''
+							// ],[
+							// 	'date_payout'=>isset($value[89])?$value[89]:'', // Cột CL NGÀY NỘP TRUNG TÂM
+							// 	'cabin_money'=>isset($value[90])?$value[90]:'' // Cột CM TIỀN CABIN
+							// ]);
 							DB::commit();
 						}catch(Exception $e){
 							Log::debug($e);
