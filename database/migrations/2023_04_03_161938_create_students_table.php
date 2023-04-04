@@ -22,6 +22,12 @@ class CreateStudentsTable extends Migration
             $table->string('course_planed'); // Cột E: Khoá dự kiến Dành cho CSKH
                                             // Cột F: Hạng nằm bên bảng Certificates
             $table->integer('tuition_id'); // Cột G,H,I thuộc bảng Tuition
+            $table->date('birthday'); // Cột J Ngày sinh
+            $table->string('address'); // Cột k Địa chỉ
+            $table->string('telephone'); // Cột L Điện thoại
+            $table->string('telephone2'); // Cột M SDT khác
+            $table->string('id_student'); // Cột N Id student
+            $table->string('date_give_card'); //Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
             $table->timestamps();
         });
     }

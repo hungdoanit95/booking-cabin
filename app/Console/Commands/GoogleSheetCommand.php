@@ -90,12 +90,10 @@ class GoogleSheetCommand extends Command
 		Log::debug($spreadsheetId);
 		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
 		$values = $response->getValues();
-		Log::debug($values);
-    if(count($values) > 0){
+		if(count($values) > 0){
       foreach($values as $value){
-
       }
-    }
+		}
 		return $values;
   }
 
