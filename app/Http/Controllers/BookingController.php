@@ -6,12 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\TimeBooks;
 use App\Models\Cabins;
+use App\Repositories\Booking\BookingInterface;
 
 class BookingController extends Controller
 {
+
+    protected $bookingRepo;
+
+    public function __construct(BookingInterface $bookingRepo)
+    {
+        $this->bookingRepo = $bookingRepo;
+    }
     public function index(){
         $time_books = TimeBooks::all()->toArray();
         $cabins = Cabins::all();
+        $bookings = $this->bookingRepo->getBooking();
         return view('booking', [
             'time_books' => array_chunk(array_chunk($time_books,5),2),
             'cabins' => $cabins
