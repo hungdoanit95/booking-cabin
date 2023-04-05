@@ -89,16 +89,13 @@ class GoogleSheetCommand extends Command
   public function readFileGoogleSheet($service){
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
-			"1dgDM_OzmLMjRfMETp4DCa5A_jFMtAhmyuM3WHxoKhRs"
-			// "1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU",
-			// "1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ", ## Template chính
+			"1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU",
 		];
-		$range = 'Sheet1!A2:DG';
+		$range = 'HocVien!A2:CM';
 		// get values
 		foreach($spreadsheetIds as $spreadsheetId){
 			$response = $service->spreadsheets_values->get($spreadsheetId, $range);
 			$values = $response->getValues();
-			Log::debug($values); return;
 			if(count($values) > 0){
 				foreach($values as $value){
 					if(isset($value[1]) || isset($value[2])){ // Tồn tại mã học viên hoặc tên học viên
@@ -167,12 +164,12 @@ class GoogleSheetCommand extends Command
 								'total_tuition' => isset($value[35])?$value[35]:'', // AJ TỔNG HỌC PHÍ SAU GIẢM
 								'compare' => isset($value[36])?$value[36]:'', // AK ĐỐI CHIẾU LỆCH VỚI GIÁ SALES
 							]);
-							// DB::table('money_cabin')->updateOrInsert([
-							// 	'student_id' => isset($student_id)?$student_id:''
-							// ],[
-							// 	'date_payout'=>isset($value[89])?$value[89]:'', // Cột CL NGÀY NỘP TRUNG TÂM
-							// 	'cabin_money'=>isset($value[90])?$value[90]:'' // Cột CM TIỀN CABIN
-							// ]);
+							DB::table('money_cabin')->updateOrInsert([
+								'student_id' => isset($student_id)?$student_id:''
+							],[
+								'date_payout'=>isset($value[86])?$value[86]:'', // Cột CL NGÀY NỘP TRUNG TÂM
+								'cabin_money'=>isset($value[87])?$value[87]:'' // Cột CM TIỀN CABIN
+							]);
 							DB::commit();
 						}catch(Exception $e){
 							Log::debug($e);
