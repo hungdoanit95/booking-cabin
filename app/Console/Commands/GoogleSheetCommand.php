@@ -89,14 +89,16 @@ class GoogleSheetCommand extends Command
   public function readFileGoogleSheet($service){
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
-			"1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ",
-			"1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU", ## Template chính
+			"1dgDM_OzmLMjRfMETp4DCa5A_jFMtAhmyuM3WHxoKhRs"
+			// "1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU",
+			// "1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ", ## Template chính
 		];
-		$range = 'HocVien!A2:DG';
+		$range = 'Sheet1!A2:DG';
 		// get values
 		foreach($spreadsheetIds as $spreadsheetId){
 			$response = $service->spreadsheets_values->get($spreadsheetId, $range);
 			$values = $response->getValues();
+			Log::debug($values); return;
 			if(count($values) > 0){
 				foreach($values as $value){
 					if(isset($value[1]) || isset($value[2])){ // Tồn tại mã học viên hoặc tên học viên
