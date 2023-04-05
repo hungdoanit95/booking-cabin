@@ -55,7 +55,7 @@
                         top: calc(50% + 16px);
                         right: 5px;
                         padding: 5px;
-                        background: #ddd;">Lấy mã OTP</span>
+                        background: #ddd;" id="get-OTP">Lấy mã OTP</span>
                     </div>
                     <div class="form-group">
                         <h6>Mã OTP <span style="color: #f00">(*)</span></h6> <div id="alert-otp"></div>
