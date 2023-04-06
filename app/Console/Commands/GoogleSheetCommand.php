@@ -105,15 +105,15 @@ class GoogleSheetCommand extends Command
 								'student_code' => isset($value[1])?$value[1]:'', // Cột B: Mã HV
 								'telephone' =>  isset($value[11])?$value[11]:'', // Cột L Điện thoại
 							],[
-								'time_hidden' => isset($value[0])?date('Y-m-d', strtotime($value[0])):'', // Cột A: Dấu thời gian
+								'time_hidden' => isset($value[0])?trim($value[0]):'', // Cột A: Dấu thời gian
 								'student_name' =>  isset($value[2])?$value[2]:'', // Cột C: Họ và Tên học viên
 								'course_code' =>  isset($value[3])?$value[3]:'', // Cột D: Khóa
 								'course_planed' =>  isset($value[4])?$value[4]:'', // Cột E: Khoá dự kiến Dành cho CSKH
-								'birthday' =>  isset($value[9])?date('Y-m-d', strtotime($value[9])):'', // Cột J Ngày sinh
+								'birthday' =>  isset($value[9])?trim($value[9]):'', // Cột J Ngày sinh
 								'address' =>  isset($value[10])?$value[10]:'', // Cột k Địa chỉ
 								'telephone2' =>  isset($value[11])?$value[11]:'', // Cột M SDT khác
 								'id_student' =>  isset($value[12])?$value[12]:'', // Cột N CMND
-								'date_give_card' => isset($value[13])?date('Y-m-d', strtotime($value[13])):'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
+								'date_give_card' => isset($value[13])?$value[13]:'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
 							]);
 							$student_id = DB::getPdo()->lastInsertId();
 							DB::table('certificates')->updateOrInsert([

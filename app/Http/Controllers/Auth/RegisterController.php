@@ -36,9 +36,16 @@ class RegisterController extends Controller
      *
      * @return void
      */
+    protected $message = array();
     public function __construct()
     {
         $this->middleware('guest');
+        $this->message = [
+            'required' => 'Bắt buộc nhập :attribute',
+            'string' => 'Trường :attribute bắt buộc nhập là chuỗi ký tự',
+            'max' => 'Vui lòng nhập tối đa 255 ký tự',
+            'min' => 'Vui lòng nhập :attribute ít nhất 8 ký tự',
+        ];
     }
 
     /**
@@ -53,7 +60,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ],$this->message);
     }
 
     /**
