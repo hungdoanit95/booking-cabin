@@ -15,69 +15,69 @@ use App\Models\Certificate;
 
 class GoogleSheetCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'command:google_sheet_api';
+  /**
+   * The name and signature of the console command.
+   *
+   * @var string
+   */
+  protected $signature = 'command:google_sheet_api';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+  /**
+   * The console command description.
+   *
+   * @var string
+   */
+  protected $description = 'Command description';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
+  /**
+   * Create a new command instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+      parent::__construct();
+  }
+
+  public function getGoogleClient()
+  {
+    $client = new Google_Client();
+    $client->setApplicationName('Google Sheets API PHP Quickstart');
+    $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
+    $client->setAuthConfig(config_path('credentials.json'));
+    $client->setAccessType('offline');
+    $tokenPath = storage_path('app/token.json');
+    if (file_exists($tokenPath)) {
+      $accessToken = json_decode(file_get_contents($tokenPath), true);
+      $client->setAccessToken($accessToken);
     }
 
-    public function getGoogleClient()
-   {
-   	$client = new Google_Client();
-   	$client->setApplicationName('Google Sheets API PHP Quickstart');
-   	$client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-   	$client->setAuthConfig(config_path('credentials.json'));
-   	$client->setAccessType('offline');
-   	$tokenPath = storage_path('app/token.json');
-   	if (file_exists($tokenPath)) {
-   		$accessToken = json_decode(file_get_contents($tokenPath), true);
-   		$client->setAccessToken($accessToken);
-   	}
+    if ($client->isAccessTokenExpired()) {
+      if ($client->getRefreshToken()) {
+        $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+      } else {
+        $authUrl = $client->createAuthUrl();
+        printf("Open the following link in your browser:\n%s\n", $authUrl);
+        print 'Enter verification code: ';
+        $authCode = trim(fgets(STDIN));
 
-   	if ($client->isAccessTokenExpired()) {
-   		if ($client->getRefreshToken()) {
-   			$client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-   		} else {
-   			$authUrl = $client->createAuthUrl();
-   			printf("Open the following link in your browser:\n%s\n", $authUrl);
-   			print 'Enter verification code: ';
-   			$authCode = trim(fgets(STDIN));
+        // Exchange authorization code for an access token.
+        $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+        $client->setAccessToken($accessToken);
 
-   			// Exchange authorization code for an access token.
-   			$accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-   			$client->setAccessToken($accessToken);
+        // Check to see if there was an error.
+        if (array_key_exists('error', $accessToken)) {
+          throw new Exception(join(',', $accessToken));
+        }
+      }
 
-   			// Check to see if there was an error.
-   			if (array_key_exists('error', $accessToken)) {
-   				throw new Exception(join(',', $accessToken));
-   			}
-   		}
+      if (!file_exists(dirname($tokenPath))) {
+        mkdir(dirname($tokenPath), 0700, true);
+      }
+      file_put_contents($tokenPath, json_encode($client->getAccessToken()));
+    }
 
-   		if (!file_exists(dirname($tokenPath))) {
-   			mkdir(dirname($tokenPath), 0700, true);
-   		}
-   		file_put_contents($tokenPath, json_encode($client->getAccessToken()));
-   	}
-
-   	return $client;
+    return $client;
   }
 
   public function insertDatabase($value = array()){
@@ -89,9 +89,9 @@ class GoogleSheetCommand extends Command
   public function readFileGoogleSheet($service){
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
-			"1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU",
+			"1Nq-LdTilkw0O4eBdhwwcN9v_C8Nh5Ch_0q4jOTPC6Qk",
 		];
-		$range = 'HocVien!A2:CM';
+		$range = 'HocVien!A3:CM';
 		// get values
 		foreach($spreadsheetIds as $spreadsheetId){
 			$response = $service->spreadsheets_values->get($spreadsheetId, $range);
@@ -164,12 +164,14 @@ class GoogleSheetCommand extends Command
 								'total_tuition' => isset($value[35])?$value[35]:'', // AJ TỔNG HỌC PHÍ SAU GIẢM
 								'compare' => isset($value[36])?$value[36]:'', // AK ĐỐI CHIẾU LỆCH VỚI GIÁ SALES
 							]);
-							DB::table('money_cabin')->updateOrInsert([
-								'student_id' => isset($student_id)?$student_id:''
-							],[
-								'date_payout'=>isset($value[86])?$value[86]:'', // Cột CL NGÀY NỘP TRUNG TÂM
-								'cabin_money'=>isset($value[87])?$value[87]:'' // Cột CM TIỀN CABIN
-							]);
+              if(!empty($value[89])){
+                DB::table('money_cabin')->updateOrInsert([
+                  'student_id' => isset($student_id)?$student_id:''
+                ],[
+                  'date_payout'=>isset($value[89])?$value[89]:'', // Cột CL NGÀY NỘP TRUNG TÂM
+                  'cabin_money'=>isset($value[90])?$value[90]:'' // Cột CM TIỀN CABIN
+                ]);
+              }
 							DB::commit();
 						}catch(Exception $e){
 							Log::debug($e);

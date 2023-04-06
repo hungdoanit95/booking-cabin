@@ -18,5 +18,6 @@ class Booking extends Model
         'name_booking',
         'email_booking',
         'telephone_booking',
+        'status'
     ];
 }

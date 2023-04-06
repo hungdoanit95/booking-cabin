@@ -26,3 +26,5 @@ Route::get('/get-data-google-sheet', [App\Http\Controllers\HomeController::class
 Route::get('/callback', [App\Http\Controllers\BookingController::class, 'callbackGoogleSheet'])->name('callback');
 Route::get('/terms-of-service', [App\Http\Controllers\BookingController::class, 'termsOfService'])->name('terms.of.service');
 Route::get('/privacy-policy', [App\Http\Controllers\BookingController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::post('/set-otp-sms', [App\Http\Controllers\BookingController::class, 'setOtpSms'])->name('set.otp.sms');
+Route::post('/check-otp-sms', [App\Http\Controllers\BookingController::class, 'checkOtpSms'])->name('check.otp.sms');

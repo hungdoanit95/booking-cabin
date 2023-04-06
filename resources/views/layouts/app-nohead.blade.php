@@ -91,7 +91,7 @@
             color: #000;
             position: relative;
         }
-        #time-register.is-invalid, #cabin-register.is-invalid{
+        #time-register.is-invalid, #cabin-register.is-invalid, .confirm-box.error-alert{
             border-color: #dc3545;
             border-width: 1px;
             border-style: solid;
@@ -100,6 +100,7 @@
             background-repeat: no-repeat;
             background-position: right calc(0.375em + 0.2335rem) center;
             background-size: calc(0.75em + 0.467rem) calc(0.75em + 0.467rem);
+            border-radius: 5px;
         }
         #time-register.is-valid,#cabin-register.is-valid{
             border-style: solid;
@@ -110,6 +111,7 @@
             background-repeat: no-repeat;
             background-position: right calc(0.375em + 0.2335rem) center;
             background-size: calc(0.75em + 0.467rem) calc(0.75em + 0.467rem);
+            border-radius: 5px;
         }
         #alert-group .text-success{
             text-align: center;

@@ -21,6 +21,7 @@ class CreateBookingCabinTable extends Migration
             $table->string('name_booking')->nullable();
             $table->string('email_booking')->nullable();
             $table->string('telephone_booking')->nullable();
+            $table->integer('status')->default(1);// 1: Chờ duyệt, 2: Đã kích hoạt, 3: Hủy 
             $table->timestamps();
         });
     }
