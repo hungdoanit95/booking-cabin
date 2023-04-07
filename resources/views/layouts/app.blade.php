@@ -26,7 +26,11 @@
     <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        .hidden{
+            display: none !important;
+        }
         .btn-item{
             display: flex;
             justify-content: space-between;
@@ -80,7 +84,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li><a href="/danh-sach"><i class="fa fa-list" aria-hidden="true"></i> Danh sách đặt lịch</a></li>
-                        <li><a href="/dat-lich"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Đặt lịch</a></li>
+                        {{-- <li><a href="/dat-lich"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Đặt lịch</a></li> --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->

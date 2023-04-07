@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5 col-sm-12 mx-auto">
-            <div class="card pt-4">
+            <div class="card" style="border-radius: 10px">
                 <div class="card-body">
                     <div class="text-center mb-5">
                         <img src="{{ asset('assets/images/logo-ko-nen.png') }}" height="48" class='mb-4'>

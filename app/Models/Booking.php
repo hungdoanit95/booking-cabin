@@ -18,6 +18,11 @@ class Booking extends Model
         'name_booking',
         'email_booking',
         'telephone_booking',
-        'status'
+        'is_admin',
+        'admin_id',
+        'notes_booking',
+        'user_delete_id',
+        'date_deleted',
+        'status', // 1: Chưa duyệt / 2: Đã duyệt
     ];
 }

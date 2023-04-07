@@ -25,11 +25,26 @@ class HomeController extends Controller
    */
   public function index(Request $request)
   {
+    $student_phonecode = !empty($request->student_phonecode)?$request->student_phonecode:'';
+    $date_booking = !empty($request->date_booking)?$request->date_booking:'';
+    $status = !empty($request->status)?(int)$request->status:'';
     $datas = Booking::leftjoin('students','students.telephone','booking_cabin.telephone_booking')
     ->leftjoin('tuitions','tuitions.student_id','students.id')
     ->leftjoin('money_cabin','money_cabin.student_id','students.id')
-    ->leftjoin('timebooks','timebooks.time_id','booking_cabin.time_id')
-    ->select(
+    ->leftjoin('timebooks','timebooks.time_id','booking_cabin.time_id');
+    if(!empty($student_phonecode)){
+      $datas = $datas->where(function ($query) use ($student_phonecode) {
+        $query->where('students.telephone', '=', $student_phonecode)
+              ->orWhere('students.student_code', '=', $student_phonecode);
+      });
+    }
+    if(!empty($date_booking)){
+      $datas = $datas->where('booking_cabin.date_booking',$date_booking);
+    }
+    if(!empty($status)){
+      $datas = $datas->where('booking_cabin.status',$status);
+    }
+    $datas = $datas->select(
       'course_code',
       'student_code',
       'name_booking',
@@ -43,11 +58,16 @@ class HomeController extends Controller
       'date_payout',
       'cabin_money',
       'status',
-      'booking_cabin.id as id '
+      'booking_cabin.id as id'
     )
     ->get();
       return view('home',[
-        'datas' => $datas
+        'datas' => $datas,
+        'filter' => [
+          'student_phonecode' => $student_phonecode,
+          'date_booking' => $date_booking,
+          'status' => $status
+        ]
       ]);
   }
 

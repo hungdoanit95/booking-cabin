@@ -264,22 +264,26 @@
         //         return;
         //     }
         // })
-        $('#email-register').on('change',function(e){
-            email = $(this).val();
-            if(email != ''){
-              if(validateEmail(email)){
-                  $(this).removeClass('is-invalid');
-                  $(this).addClass('is-valid');
-                  $('#alert-email *').remove();
-              }else{
-                  $(this).removeClass('is-valid');
-                  $('#alert-email *').remove();
-                  $('#alert-email').html('<p class="alert alert-danger">Vui lòng kiểm tra lại email</p>');
-                  $('#email-register').addClass('is-invalid');
-                  return;
-              }
-            }
-        })
+
+
+        // $('#email-register').on('change',function(e){
+        //     email = $(this).val();
+        //     if(email != ''){
+        //       if(validateEmail(email)){
+        //           $(this).removeClass('is-invalid');
+        //           $(this).addClass('is-valid');
+        //           $('#alert-email *').remove();
+        //       }else{
+        //           $(this).removeClass('is-valid');
+        //           $('#alert-email *').remove();
+        //           $('#alert-email').html('<p class="alert alert-danger">Vui lòng kiểm tra lại email</p>');
+        //           $('#email-register').addClass('is-invalid');
+        //           return;
+        //       }
+        //     }
+        // })
+
+        //Check số điện thoại
         $('#telephone-register').on('change',function(e){
             let telephone = $(this).val();
             let otp_val = $('#name-otp').val();
@@ -404,7 +408,7 @@
             }, 1000);
           }
         }
-            var i = 0;
+        var i = 0;
         $('#get-OTP').click(function(){
           if(!$(this).hasClass('block-btn')){
             let telephone_val = $('#telephone-register').val();
@@ -623,28 +627,29 @@
                 },
                 dataType: 'json',
                 success: function (data){
-                    if(data.status){
-                      $('#cabin-number').val('');
-                      $('#time-choose').val('');
-                      $('#date-register').val(date_check);
-                      $('#name-register').val('');
-                      $('#email-register').val('');
-                      $('#telephone-register').val('');
-                      $('#alert-group').html('<div class="text-success">'+data.message+'</div>');
-                      Swal.fire({
-                          title: 'Thành công!',
-                          text: 'Bạn đã đặt lịch học cabin thành công',
-                          icon: 'success'
-                      });
+                  if(data.status){
+                    $('#cabin-number').val('');
+                    $('#time-choose').val('');
+                    $('#date-register').val(date_check);
+                    $('#name-register').val('');
+                    $('#email-register').val('');
+                    $('#telephone-register').val('');
+                    $('#alert-group').html('<div class="text-success">'+data.message+'</div>');
+                    Swal.fire({
+                      title: 'Thành công!',
+                      text: data.message,
+                      icon: 'success'
+                    }).then(function(isConfirm) {
                       window.location.reload(false);
-                    }else{
-                        $('#alert-group').html('<div class="text-danger">'+data.message+'</div>');
-                        Swal.fire({
-                            title: 'Thất bại!',
-                            text: 'Đặt lịch học cabin không thành công',
-                            icon: 'error'
-                        })
-                    }
+                    });
+                  }else{
+                    $('#alert-group').html('<div class="text-danger">'+data.message+'</div>');
+                    Swal.fire({
+                      title: 'Thất bại!',
+                      text: data.message,
+                      icon: 'error'
+                    })
+                  }
                 }
             });
         });

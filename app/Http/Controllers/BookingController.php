@@ -31,17 +31,42 @@ class BookingController extends Controller
         ]);
     }
 
+
+    /** 
+     * Kiểm tra xem học viên đã đóng đủ học phí chưa 
+     * Return 1: Đã đóng đủ
+     * Return 0: Chưa đóng đủ
+     * **/
     public function checkTuitionFee($telephone){
       $tuition_detail = Student::leftjoin('tuitions','tuitions.student_id','students.id')
       ->leftjoin('money_cabin','money_cabin.student_id','students.id')
       ->where('students.telephone',$telephone)
-      ->get();
-      if(!empty($tuition_detail) && ((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0 || (int)$tuition_detail['cabin_money'] > 0)){
-        return 1; // đã đóng đủ học phí hoặc đã đóng tiền cabin
+      ->first();
+      if(!empty($tuition_detail)){
+        if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0 || (int)$tuition_detail['cabin_money'] > 0){
+          return 1; // đã đóng đủ học phí hoặc đã đóng tiền cabin
+        } 
       }
       return 0;
     }
 
+    /**
+     * Kiểm tra thời gian đã có ai đặt chưa
+     * Return 1: Đã có người đặt
+     * Return 0: Chưa có người đặt
+     * **/
+    public function checkTimeBooking($date_booking, $time_id){
+      $check_time = Booking::where('date_booking', $date_booking)->where('time_id',$time_id)->where('status',2)->first();
+      if(!empty($check_time)){
+        return 1;
+      }else{
+        return 0;
+      }
+    }
+
+    /**
+     * Function đặt lịch học 
+     **/
     public function createOrUpdate(Request $request){
         if(empty($request) 
         || empty($request->time_val)
@@ -53,6 +78,13 @@ class BookingController extends Controller
         $cabin_id = 0;
         $time_id = $request->time_val;
         $date_booking = isset($request->date_val) ? $request->date_val : strtotime(date("Y-m-d")."+ 2 days");
+        if($this->checkTimeBooking($date_booking,$time_id)){
+          return response()->json([
+              'api_name' => 'Đặt lịch học Cabin',
+              'message' => 'Thời gian đặt đã có người đặt vui lòng chọn thời gian khác',
+              'status' => 0,
+          ]);
+        }
         $name_booking = $request->name_val;
         $email_booking = 'email@gmail.com';
         $telephone_booking = $request->telephone_val;

@@ -30,3 +30,5 @@ Route::post('/set-otp-sms', [App\Http\Controllers\BookingController::class, 'set
 Route::post('/check-otp-sms', [App\Http\Controllers\BookingController::class, 'checkOtpSms'])->name('check.otp.sms');
 Route::get('/dat-lich', [App\Http\Controllers\BookingAdminController::class, 'Booking'])->name('admin.dat.lich');
 Route::post('/check-tuition-student', [App\Http\Controllers\BookingController::class, 'checkTuitionStudent'])->name('check.tuition.student');
+Route::post('/admin-delete-booking', [App\Http\Controllers\BookingAdminController::class, 'adminDeleteBooking'])->name('admin.delete.booking');
+Route::post('/admin-update-booking', [App\Http\Controllers\BookingAdminController::class, 'adminUpdateBooking'])->name('admin.update.booking');
