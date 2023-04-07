@@ -20,7 +20,7 @@ Route::post('/creater-or-update', [App\Http\Controllers\BookingController::class
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/danh-sach', [App\Http\Controllers\HomeController::class, 'index'])->name('danh.sach');
 Route::post('/check-time-cabin', [App\Http\Controllers\BookingController::class, 'checkTimeCabin'])->name('check.time.cabin');
 Route::get('/get-data-google-sheet', [App\Http\Controllers\HomeController::class, 'getDataGoogleSheet'])->name('get.data.google-sheet');
 Route::get('/callback', [App\Http\Controllers\BookingController::class, 'callbackGoogleSheet'])->name('callback');
@@ -28,3 +28,5 @@ Route::get('/terms-of-service', [App\Http\Controllers\BookingController::class, 
 Route::get('/privacy-policy', [App\Http\Controllers\BookingController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::post('/set-otp-sms', [App\Http\Controllers\BookingController::class, 'setOtpSms'])->name('set.otp.sms');
 Route::post('/check-otp-sms', [App\Http\Controllers\BookingController::class, 'checkOtpSms'])->name('check.otp.sms');
+Route::get('/dat-lich', [App\Http\Controllers\BookingAdminController::class, 'Booking'])->name('admin.dat.lich');
+Route::post('/check-tuition-student', [App\Http\Controllers\BookingController::class, 'checkTuitionStudent'])->name('check.tuition.student');

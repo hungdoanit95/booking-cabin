@@ -46,7 +46,6 @@ class HomeController extends Controller
       'booking_cabin.id as id '
     )
     ->get();
-    return $datas;
       return view('home',[
         'datas' => $datas
       ]);

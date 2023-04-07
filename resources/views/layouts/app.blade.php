@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
     <style>
         .btn-item{
             display: flex;
@@ -46,6 +47,22 @@
         .form-group label{
             text-transform: none;
         }
+        @media (min-width: 768px){
+            .navbar-nav.me-auto{
+                margin-left: 100px;
+            }
+            .navbar-nav.me-auto li{
+                margin-right: 15px;
+            }
+            .navbar-nav.me-auto a{
+                padding: 8px 15px;
+                display: inline-block;
+                border-radius: 5px;
+                background: #00387e;
+                color: #fff;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -62,7 +79,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li><a href="/danh-sach"><i class="fa fa-list" aria-hidden="true"></i> Danh sách đặt lịch</a></li>
+                        <li><a href="/dat-lich"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Đặt lịch</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

@@ -29,14 +29,13 @@
             padding: 0;
         }
         html, body{
-            height: 100vh;
+            height: 100%;
             width: 100%;
+            font-family: 'Roboto';
         }
         #app{
             position: relative;
-            width: 100%;
-            display: flex;
-            height: 100%;
+            background: radial-gradient(circle, #1f365f 300px, #0b1a29);
         }
         main{
             width: 100%;
@@ -63,13 +62,32 @@
         .container{
             display: flex;
             width: 100%;
-            height: 100vh;
+            height: 100%;
+            min-height: 100vh;
             justify-content: center;
         }
         .container > .row{
             display: flex;
             width: 100%;
             align-items: center;
+        }
+        .btn-search{
+            border-radius: 10px;
+        }
+        .card{
+            border: 20px solid #1f3c5f;
+            margin-top: 50px;
+            background: #1f3c5f;
+            border-radius: 10px;
+        }
+        .card .card-header{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card .card-body{
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background: #fff;
         }
         .form-group label{
             text-transform: none;
@@ -82,7 +100,11 @@
             justify-content: space-around;
         }
         .btn.btn-success.btn-success{
-            background:#57e09c
+            background: #1ea955;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: unset;
+            font-family: Roboto;
         }
         .btn-default{
             background: #ccc;
@@ -116,6 +138,7 @@
         #alert-group .text-success{
             text-align: center;
         }
+        
         @media (max-width: 768px){
             .btn-item button{
                 margin-bottom: 10px;

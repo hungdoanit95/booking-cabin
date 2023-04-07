@@ -1,17 +1,7 @@
-@extends('layouts.app-nohead')
+@extends('layouts.app')
 
 @section('content')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 <style>
-    .btn-search{
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 6px 15px;
-        z-index: 2;
-    }
     .card-header h2{
         font-size: 22px;
         margin-top: 30px;
@@ -34,7 +24,7 @@
       transform: translateY(-50%);
       right: 38px;
       padding: 6px;
-      background: #ebebeb;
+      background: #ddd;
       cursor: pointer;
       border-radius: 5px;
       font-size: 12px;
@@ -67,15 +57,17 @@
     .confirm-box.error-alert p{
       margin-bottom: 0
     }
+    .btn-item{
+        flex-wrap: wrap;
+    }
 </style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header" style="position: relative;">
-                    <h2>{{ __('Đăng ký trải nghiệm Cabin') }}</h2>
-                    <p>140 Cộng Hòa, P.4, Q. Tân Bình, Hồ Chí Minh (Tầng 10 - Trường ĐH Văn Hóa Nghệ Thuật Quân Đội - phía sau Nhà hát Quân Đội)</p>
-                    <a href="/tim-kiem" class="btn btn-info btn-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                    <h2>{{ __('Đặt lịch hộ học viên') }}</h2>
+                    <p>Đặt lịch trực tiếp hộ học viên</p>
                 </div>
 
                 <div class="card-body">
@@ -223,15 +215,10 @@
         });
       }
     }
-    
     $(document).ready(()=>{
         checkTimeCabin();
         let err_message = '';
         $('#date-register').on('focus',function(){
-          $('#date-register').addClass('is-valid');
-          checkTimeCabin();
-        });
-        $('#date-register').on('change',function(){
           $('#date-register').addClass('is-valid');
           checkTimeCabin();
         })
@@ -278,47 +265,6 @@
                   $('#email-register').addClass('is-invalid');
                   return;
               }
-            }
-        })
-        $('#telephone-register').on('change',function(e){
-            let telephone = $(this).val();
-            let otp_val = $('#name-otp').val();
-            if(validatePhone(telephone)){
-              $(this).removeClass('is-invalid');
-              $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ route('check.otp.sms')}}",
-                method: 'POST',
-                data: {
-                    'telephone': telephone,
-                    'otp_code': otp_val
-                },
-                dataType: 'JSON',
-                success: function (res){
-                  if(res.status){
-                    $('#name-otp').removeClass('is-invalid');
-                    $('#name-otp').addClass('is-valid');
-                    if(res.data){
-                      $('#name-register').val(res.data.student_name);
-                      $('#name-register').addClass('is-valid');
-                    }
-                  }else{
-                    $('#name-otp').removeClass('is-valid');
-                    $('#name-register').val('');
-                    $('#name-register').removeClass('is-valid');
-                  }
-                }
-              });
-              $(this).addClass('is-valid');
-              $('#alert-telephone *').remove();
-            }else{
-              $(this).removeClass('is-valid');
-              $('#alert-telephone *').remove();
-              $('#alert-telephone').html('<p class="alert alert-danger">Vui lòng kiểm tra lại số điện thoại</p>');
-              $('#telephone-register').addClass('is-invalid');
-              return;
             }
         })
         $('.btn-item button').on('click',function(){
@@ -483,7 +429,7 @@
               }
             }
           });
-        });
+        })
         $('#btn-booking').on('click',function(e){
             e.stopPropagation();
             let cabin_val = $('#cabin-number').val();
@@ -502,7 +448,12 @@
                 $('#alert-date *').remove();
                 $('#date-register').addClass('is-valid');
             }
-
+            let has_readonly = $('#name-register').attr('readonly');
+            if(has_readonly !== undefined){
+              has_readonly = 2;
+            }else{
+              has_readonly = 1;
+            }
             let name_val = $('#name-register').val();
             let email_val = $('#email-register').val();
             let telephone_val = $('#telephone-register').val();
@@ -619,7 +570,8 @@
                     'date_check': date_check,
                     'name_val': name_val,
                     'email_val': email_val,
-                    'telephone_val': telephone_val
+                    'telephone_val': telephone_val,
+                    'status': has_readonly
                 },
                 dataType: 'json',
                 success: function (data){
@@ -635,8 +587,7 @@
                           title: 'Thành công!',
                           text: 'Bạn đã đặt lịch học cabin thành công',
                           icon: 'success'
-                      });
-                      window.location.reload(false);
+                      })
                     }else{
                         $('#alert-group').html('<div class="text-danger">'+data.message+'</div>');
                         Swal.fire({
@@ -649,26 +600,5 @@
             });
         });
     });
-</script>
-<script>
-  $(document).ready(function() {
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', '{{ asset("assets/mp3/ting.mp3") }}');
-    
-    $('#time-register .btn, #btn-booking').click(function() {
-      if($(this).hasClass('btn-success')){
-        audioElement.play();
-        audioElement.currentTime = 0;
-      }
-    });
-    
-    // $('#pause').click(function() {
-    //     audioElement.pause();
-    // });
-    
-    // $('#restart').click(function() {
-    //     audioElement.currentTime = 0;
-    // });
-});
 </script>
 @endsection

@@ -1,10 +1,4 @@
 @extends('layouts.app')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css.map">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/FontAwesome.otf">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg">
 <style>
     .table>:not(caption)>*>*{
         padding: 5px 10px !important;
@@ -58,7 +52,6 @@
                               <div class="bg-filter">
                                 <h3>Lọc tìm kiếm</h3>
                                 <form action="" method="GET">
-                                  {{ csrf_token() }}
                                   <div class="row">
                                     <div class="col-sm-4">
                                         <label>Mã học viên / Số điện thoại</label>
@@ -82,6 +75,7 @@
                                         <button class="btn btn-info"><i class="fa fa-search"></i></button>
                                     </div>
                                   </div>
+                                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                 </form>
                               </div>
                             </div>
@@ -104,7 +98,7 @@
                                 <th></th>
                             </thead>
                             <tbody>
-                                @if(!empty($datas))
+                                @if(!empty($datas) && count($datas) > 0)
                                     @foreach($datas as $data)
                                         <tr>
                                             <td><b>{{$data['course_code']}}</b></td>
@@ -124,7 +118,11 @@
                                         </tr>
                                     @endforeach
                                 @else
-                                    <p>Chưa có dữ liệu</p>
+                                  <tr>
+                                    <td colspan="13">
+                                      <p>Chưa có dữ liệu</p>
+                                    </td>
+                                  </tr>
                                 @endif
                             </tbody>
                         </table>

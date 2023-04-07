@@ -31,6 +31,17 @@ class BookingController extends Controller
         ]);
     }
 
+    public function checkTuitionFee($telephone){
+      $tuition_detail = Student::leftjoin('tuitions','tuitions.student_id','students.id')
+      ->leftjoin('money_cabin','money_cabin.student_id','students.id')
+      ->where('students.telephone',$telephone)
+      ->get();
+      if(!empty($tuition_detail) && ((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0 || (int)$tuition_detail['cabin_money'] > 0)){
+        return 1; // đã đóng đủ học phí hoặc đã đóng tiền cabin
+      }
+      return 0;
+    }
+
     public function createOrUpdate(Request $request){
         if(empty($request) 
         || empty($request->time_val)
@@ -41,9 +52,9 @@ class BookingController extends Controller
         }
         $cabin_id = 0;
         $time_id = $request->time_val;
-        $date_booking = $request->date_val;
+        $date_booking = isset($request->date_val) ? $request->date_val : strtotime(date("Y-m-d")."+ 2 days");
         $name_booking = $request->name_val;
-        $email_booking = $request->email_val;
+        $email_booking = 'email@gmail.com';
         $telephone_booking = $request->telephone_val;
         $status = $request->status;
         $data_filter = array(
@@ -52,10 +63,11 @@ class BookingController extends Controller
             'date_booking' => $date_booking,
             'telephone_booking' => $telephone_booking,
         );
+        $check_tuition = $this->checkTuitionFee($telephone_booking);
         $data_create_update = array(
             'name_booking' => $name_booking,
             'email_booking' => $email_booking,
-            'status' => $status
+            'status' => $check_tuition ? 2 : 1, // Nếu đã đóng tiền thì trạng thái tự duyệt là 2
         );
         $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
         if($check_add_update){
