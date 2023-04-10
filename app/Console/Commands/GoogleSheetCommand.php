@@ -164,12 +164,12 @@ class GoogleSheetCommand extends Command
 								'total_tuition' => isset($value[35])?$value[35]:'', // AJ TỔNG HỌC PHÍ SAU GIẢM
 								'compare' => isset($value[36])?$value[36]:'', // AK ĐỐI CHIẾU LỆCH VỚI GIÁ SALES
 							]);
-              if(!empty($value[89])){
+              if(!empty($value[86])){
                 DB::table('money_cabin')->updateOrInsert([
                   'student_id' => isset($student_id)?$student_id:''
                 ],[
-                  'date_payout'=>isset($value[89])?$value[89]:'', // Cột CL NGÀY NỘP TRUNG TÂM
-                  'cabin_money'=>isset($value[90])?$value[90]:'' // Cột CM TIỀN CABIN
+                  'date_payout'=>isset($value[86])?$value[86]:'', // Cột CL NGÀY NỘP TRUNG TÂM
+                  'cabin_money'=>isset($value[87])?$value[87]:'' // Cột CM TIỀN CABIN
                 ]);
               }
 							DB::commit();
