@@ -24,7 +24,8 @@ class BookingController extends Controller
     {
         $this->bookingRepo = $bookingRepo;
         $this->is_tphcm = true;
-        $this->price_hour = 320000;
+        $this->price_hour = 320000; // Số tiền 1 giờ cần phải đóng
+        $this->price_total = 640000; // Tổng số tiền cần phải đóng
         $this->district_hcm = array(
           'quận 1', 'quận 3',
           'quận 4', 'quận 5', 'quận 6',
@@ -34,7 +35,7 @@ class BookingController extends Controller
           'quận tân phú', 'quận tân phú',
           'quận tân bình', 'quận tân bình',
           'quận gò vấp', 'quận gò vấp',
-          'Quận 9', 'Quận 2', 'Thủ Đức'
+          'Quận 9', 'Quận 2', 'Thủ Đức', 'Thủ Đức 2 (Trạm xăng Tam Bình)'
         );
     }
     public function index(){
@@ -63,11 +64,11 @@ class BookingController extends Controller
       if(!empty($tuition_detail)){
         if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
           $times_can_booking =  0;
-          if($this->price_hour > 0 &&(int)$tuition_detail['cabin_money'] > $this->price_hour){
+          if($this->price_hour > 0 &&(int)$tuition_detail['cabin_money'] > $this->price_total){
             $times_can_booking =  floor((int)$tuition_detail['cabin_money']/$this->price_hour) > 0 ? floor((int)$tuition_detail['cabin_money']/$this->price_hour) : 0; // số lần có thể bookg
           }
           // Nếu Đủ 100% học phí, sông tại HCM miến phí 1 giờ học
-          if($this->is_tphcm === true && in_array(strtolower($tuition_detail['tuition_total']),$this->district_hcm)){
+          if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
@@ -136,7 +137,7 @@ class BookingController extends Controller
         }
         if(!empty($check_add_update)){
           if($check_tuition == 2){
-            $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn bị trừ tiền buổi trải nghiệm!';
+            $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
           }else if($check_tuition == 1){
             $message = 'Xin chào học viên mới của chúng tôi<br />
             Đăng ký trải nghiệm Cabin của bạn thành công và đang chờ duyệt!<br />
