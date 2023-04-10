@@ -228,6 +228,12 @@
       font-weight: bold;
       margin-top: 10px;
     }
+    .title-otp{
+      margin-top: 12px;
+    }
+    .group-otp input{
+      margin-bottom: 5px;
+    }
   }
 </style>
 <div class="container">
@@ -257,8 +263,8 @@
                                     <span id="get-OTP">Lấy mã OTP</span>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <h6>Mã OTP <span style="color: #f00">(*)</span></h6> <div id="alert-otp"></div>
+                            <div class="col-sm-3 group-otp">
+                                <h6 class="title-otp">Mã OTP <span style="color: #f00">(*)</span></h6> <div id="alert-otp"></div>
                                 <input class="form-control" id="name-otp" name="otp_register" type="text" placeholder="Nhập mã OTP">
                                 <div class="row">
                                     <div class="col-sm-12 group-alert"></div>
@@ -597,12 +603,27 @@
               dataType: 'JSON',
               success: function(response){
                 if(response.status == '-1'){
+                  Swal.fire({
+                      title: 'Cảnh báo!',
+                      text: response.message,
+                      icon: 'error'
+                  })
                   $('#alert-telephone').html('<p class="alert alert-danger">Cảnh báo: '+response.message+'</p>');
                   return;
                 }
                 if(response.status){
+                  Swal.fire({
+                      title: 'Thành công!',
+                      text: response.message,
+                      icon: 'success'
+                  })
                   $('#alert-telephone').html('<p class="alert alert-success">'+response.message+'</p>');
                 }else{
+                  Swal.fire({
+                      title: 'Lưu ý!',
+                      text: response.message,
+                      icon: 'error'
+                  })
                   $('#alert-telephone').html('<p class="alert alert-warning">'+response.message+'</p>');
                 }
                 if(response.error_description){
@@ -641,11 +662,12 @@
                   $('#name-register').removeAttr('readonly');
                 }
               }else{
-                  $('#name-register').attr('readonly','readonly');
+                $('#name-register').attr('readonly','readonly');
                 $('#name-otp').addClass('is-invalid');
                 $('#name-otp').removeClass('is-valid');
                 $('#name-register').val('');
                 $('#name-register').removeClass('is-valid');
+                
               }
             }
           });

@@ -50,7 +50,7 @@ class BookingController extends Controller
 
 
     /** 
-     * Kiểm tra xem học viên đã đóng đủ học phí chưa 
+     * Kiểm tra xem học viên đã đóng đủ tiền chưa 
      * Return 2: Đã đóng đủ
      * Return 1: Học viên mới
      * Return 3: Chưa đóng đủ
@@ -64,16 +64,16 @@ class BookingController extends Controller
       if(!empty($tuition_detail)){
         if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
           $times_can_booking =  0;
-          if($this->price_hour > 0 &&(int)$tuition_detail['cabin_money'] > $this->price_total){
+          if((int)$this->price_hour > 0 && (int)$tuition_detail['cabin_money'] >= (int)$this->price_total){
             $times_can_booking =  floor((int)$tuition_detail['cabin_money']/$this->price_hour) > 0 ? floor((int)$tuition_detail['cabin_money']/$this->price_hour) : 0; // số lần có thể bookg
           }
-          // Nếu Đủ 100% học phí, sông tại HCM miến phí 1 giờ học
+          // Nếu Đủ 100% tiền, sông tại HCM miến phí 1 giờ học
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
           if($times_can_booking > $times_booked){
-            return 2; // đã đóng đủ học phí hoặc đã đóng tiền cabin
+            return 2; // đã đóng đủ tiền hoặc đã đóng tiền cabin
           }
           return 3; // đã hết lượt đặt tự động duyệt
         } 
@@ -141,7 +141,7 @@ class BookingController extends Controller
           }else if($check_tuition == 1){
             $message = 'Xin chào học viên mới của chúng tôi<br />
             Đăng ký trải nghiệm Cabin của bạn thành công và đang chờ duyệt!<br />
-            Cảm ơn bạn đã quan tâm đến trải nghiệm Cabin của Hoclaioto.net!';
+            Cảm ơn bạn đã quan tâm đến trải nghiệm Cabin!';
           } else if($check_tuition == 3){
             $message = 'Đăng ký thành công và đang chờ duyệt<br />
             Vì lý do không đủ lượt trải nghiệm<br />
@@ -294,6 +294,14 @@ class BookingController extends Controller
           ]);
         }else if(!empty($check_blacklist) && $check_blacklist['status'] == 0){
           $status_phone_blacklist = 1;
+        }
+        $student_info = Student::where('telephone',$request['telephone'])->orWhere('telephone2',$request['telephone'])->get();
+        if(empty($student_info) || count($student_info) == 0){
+          return response()->json([
+              'api_name' => 'Api xét mã OPT',
+              'status' => 0,
+              'message' => 'Số điện thoại của bạn không tồn tại trong danh sách học viên của hệ thống!'
+          ]);
         }
         $new_otp_code = rand(100000,999999);
         $check_send = $this->sendOTPSMS($request['telephone'],$new_otp_code);
