@@ -89,7 +89,7 @@ class GoogleSheetCommand extends Command
   public function readFileGoogleSheet($service){
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
-			"1Nq-LdTilkw0O4eBdhwwcN9v_C8Nh5Ch_0q4jOTPC6Qk",
+			"1XlZn7rDe_brgDKS4-cEuGpE1ZK5Av2ypqYMeTnU4efE",
 		];
 		$range = 'HocVien!A3:CM';
 		// get values
