@@ -16,7 +16,7 @@ class CreateMoneyCabin extends Migration
         Schema::create('money_cabin', function (Blueprint $table) {
             $table->id();
             $table->integer('student_id');
-            $table->integer('date_payout')->nullable(); // Cột CL NGÀY NỘP TRUNG TÂM
+            $table->date('date_payout')->nullable(); // Cột CL NGÀY NỘP TRUNG TÂM
             $table->string('cabin_money')->nullable(); // Cột CM TIỀN CABIN
             $table->timestamps();
         });

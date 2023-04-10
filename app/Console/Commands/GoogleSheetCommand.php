@@ -46,6 +46,7 @@ class GoogleSheetCommand extends Command
     $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
     $client->setAuthConfig(config_path('credentials.json'));
     $client->setAccessType('offline');
+	$client->setRedirectUri('https://innbi.vn/callback');
     $tokenPath = storage_path('app/token.json');
     if (file_exists($tokenPath)) {
       $accessToken = json_decode(file_get_contents($tokenPath), true);
@@ -89,7 +90,8 @@ class GoogleSheetCommand extends Command
   public function readFileGoogleSheet($service){
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
-			"1XlZn7rDe_brgDKS4-cEuGpE1ZK5Av2ypqYMeTnU4efE",
+			"1RRnid17d5uRWVynZv9B6QPBkFu6e4rTDbCrUvoox4og",
+			"1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ",
 		];
 		$range = 'HocVien!A3:CM';
 		// get values
@@ -98,7 +100,7 @@ class GoogleSheetCommand extends Command
 			$values = $response->getValues();
 			if(count($values) > 0){
 				foreach($values as $value){
-					if(isset($value[1]) || isset($value[2])){ // Tồn tại mã học viên hoặc tên học viên
+					if(!empty($value[1]) || !empty($value[2])){ // Tồn tại mã học viên hoặc tên học viên
 						DB::beginTransaction();
 						try{
 							DB::table('students')->updateOrInsert([
@@ -168,8 +170,8 @@ class GoogleSheetCommand extends Command
                 DB::table('money_cabin')->updateOrInsert([
                   'student_id' => isset($student_id)?$student_id:''
                 ],[
-                  'date_payout'=>isset($value[86])?$value[86]:'', // Cột CL NGÀY NỘP TRUNG TÂM
-                  'cabin_money'=>isset($value[87])?$value[87]:'' // Cột CM TIỀN CABIN
+                  'date_payout'=>isset($value[86]) && $value[86] != '#N/A' && $value[86] != '#N/A'?$value[86]:NULL, // Cột CL NGÀY NỘP TRUNG TÂM
+                  'cabin_money'=>isset($value[87]) && $value[87] != '#N/A'?$value[87]:NULL // Cột CM TIỀN CABIN
                 ]);
               }
 							DB::commit();
