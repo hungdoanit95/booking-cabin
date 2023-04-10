@@ -35,6 +35,7 @@
         }
         #app{
             position: relative;
+            font-family: Arial;
             background: radial-gradient(circle, #1f365f 300px, #0b1a29);
         }
         main{

@@ -12,6 +12,55 @@
         padding: 6px 15px;
         z-index: 2;
     }
+    .btn-search {
+      background: #00cfdd;
+      background: linear-gradient(0deg, #269ec4 0%, #00cfdd 100%);
+      color: #fff;
+      border: none;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .btn-search:after {
+      position: absolute;
+      content: " ";
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s ease;
+      -webkit-transform: scale(.1);
+      transform: scale(.1);
+    }
+    .btn-search:hover {
+      color: #fff;
+      border: none;
+      background: transparent;
+    }
+    .btn-search:hover:after {
+      background: rgb(0 177 255);
+    background: linear-gradient(0deg, rgb(2 225 251) 0%,  rgb(0 194 255)100%);
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    #btn-booking {
+      width: 130px;
+      height: 40px;
+      color: #fff;
+      border-radius: 5px;
+      padding: 10px 25px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 500;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
+      box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+      7px 7px 20px 0px rgba(0,0,0,.1),
+      4px 4px 5px 0px rgba(0,0,0,.1);
+      outline: none;
+    }
     .card-header h2{
         font-size: 22px;
         margin-top: 30px;
@@ -32,7 +81,7 @@
       position: absolute;
       top: calc(50%);
       transform: translateY(-50%);
-      right: 38px;
+      right: 3px;
       padding: 6px;
       background: #ebebeb;
       cursor: pointer;
@@ -67,6 +116,119 @@
     .confirm-box.error-alert p{
       margin-bottom: 0
     }
+    #time-register button:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    direction: rtl;
+    z-index: -1;
+    box-shadow:
+     -7px -7px 20px 0px #fff9,
+     -4px -4px 5px 0px #fff9,
+     7px 7px 20px 0px #0002,
+     4px 4px 5px 0px #0001;
+    transition: all 0.3s ease;
+  }
+  #time-register button{
+    position: relative;
+  }
+  #time-register button:hover {
+    color: #ebfac1;
+  }
+  #time-register button:hover:after {
+    left: auto;
+    right: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  #time-register button:active {
+    top: 2px;
+  }
+  #btn-booking{
+    position: relative;
+    right: 20px;
+    bottom: 20px;
+    border:none;
+    box-shadow: none;
+    width: 130px;
+    height: 40px;
+    line-height: 42px;
+    -webkit-perspective: 230px;
+    perspective: 230px;
+  }
+  #btn-booking span {
+    background: rgb(0,172,238);
+  background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+    display: block;
+    position: absolute;
+    width: 130px;
+    height: 40px;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    border-radius: 5px;
+    margin:0;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+  }
+  #btn-booking span:nth-child(1) {
+    box-shadow:
+     -7px -7px 20px 0px #fff9,
+     -4px -4px 5px 0px #fff9,
+     7px 7px 20px 0px #0002,
+     4px 4px 5px 0px #0001;
+    -webkit-transform: rotateX(90deg);
+    -moz-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+    -webkit-transform-origin: 50% 50% -20px;
+    -moz-transform-origin: 50% 50% -20px;
+    transform-origin: 50% 50% -20px;
+  }
+  #btn-booking span:nth-child(2) {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    -webkit-transform-origin: 50% 50% -20px;
+    -moz-transform-origin: 50% 50% -20px;
+    transform-origin: 50% 50% -20px;
+  }
+  #btn-booking:hover span:nth-child(1) {
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+  #btn-booking:hover span:nth-child(2) {
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+   color: transparent;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+  }
+  @media (max-width: 768px){
+    .card{
+      border: 10px solid #1f3c5f;
+    }
+    .card .card-header, .card .card-header~.card-body{
+      padding: 10px;
+    }
+    .card-header h2{
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  }
 </style>
 <div class="container">
     <div class="row justify-content-center">
@@ -170,7 +332,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button class="form-control btn btn-success" type="button" id="btn-booking">Đặt lịch</button>
+                        <button class="form-control btn btn-success" type="button" id="btn-booking"><span>Đặt lịch</span><span>Xác nhận</span></button>
                     </div>
                 </div>
             </div>
@@ -663,7 +825,10 @@
     $('#time-register .btn, #btn-booking').click(function() {
       if($(this).hasClass('btn-success')){
         audioElement.play();
-        audioElement.currentTime = 0;
+        setTimeout(function(){
+          audioElement.pause();
+          audioElement.currentTime = 0;
+        },500);
       }
     });
     

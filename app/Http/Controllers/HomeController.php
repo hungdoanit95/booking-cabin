@@ -59,10 +59,9 @@ class HomeController extends Controller
       'cabin_money',
       'status',
       'booking_cabin.id as id'
-    )
-    ->get();
+    )->get();
       return view('home',[
-        'datas' => $datas,
+        'datas' => !empty($datas)?$datas:array(),
         'filter' => [
           'student_phonecode' => $student_phonecode,
           'date_booking' => $date_booking,
