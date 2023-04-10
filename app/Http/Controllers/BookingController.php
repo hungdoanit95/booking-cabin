@@ -16,10 +16,26 @@ class BookingController extends Controller
 {
 
     protected $bookingRepo;
+    protected $is_tphcm;
+    protected $price_hour;
+    protected $district_hcm;
 
     public function __construct(BookingInterface $bookingRepo)
     {
         $this->bookingRepo = $bookingRepo;
+        $this->is_tphcm = true;
+        $this->price_hour = 320000;
+        $this->district_hcm = array(
+          'quận 1', 'quận 3',
+          'quận 4', 'quận 5', 'quận 6',
+          'quận 8', 'quận 10', 'quận 11',
+          'quận phú nhuận','phú nhuận',
+          'quận bình thạnh', 'quận bình thạnh',
+          'quận tân phú', 'quận tân phú',
+          'quận tân bình', 'quận tân bình',
+          'quận gò vấp', 'quận gò vấp',
+          'Quận 9', 'Quận 2', 'Thủ Đức'
+        );
     }
     public function index(){
         $time_books = TimeBooks::all()->toArray();
@@ -34,20 +50,34 @@ class BookingController extends Controller
 
     /** 
      * Kiểm tra xem học viên đã đóng đủ học phí chưa 
-     * Return 1: Đã đóng đủ
-     * Return 0: Chưa đóng đủ
+     * Return 2: Đã đóng đủ
+     * Return 1: Học viên mới
+     * Return 3: Chưa đóng đủ
      * **/
     public function checkTuitionFee($telephone){
       $tuition_detail = Student::leftjoin('tuitions','tuitions.student_id','students.id')
       ->leftjoin('money_cabin','money_cabin.student_id','students.id')
+      ->leftjoin('employee','employee.student_id','students.id')
       ->where('students.telephone',$telephone)
       ->first();
       if(!empty($tuition_detail)){
-        if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0 || (int)$tuition_detail['cabin_money'] > 0){
-          return 1; // đã đóng đủ học phí hoặc đã đóng tiền cabin
+        if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
+          $times_can_booking =  0;
+          if($this->price_hour > 0 &&(int)$tuition_detail['cabin_money'] > $this->price_hour){
+            $times_can_booking =  floor((int)$tuition_detail['cabin_money']/$this->price_hour) > 0 ? floor((int)$tuition_detail['cabin_money']/$this->price_hour) : 0; // số lần có thể bookg
+          }
+          // Nếu Đủ 100% học phí, sông tại HCM miến phí 1 giờ học
+          if($this->is_tphcm === true && in_array(strtolower($tuition_detail['tuition_total']),$this->district_hcm)){
+            $times_can_booking = $times_can_booking + 1;
+          }
+          $times_booked = $this->countBookingByTelephone($telephone); // đã book
+          if($times_can_booking > $times_booked){
+            return 2; // đã đóng đủ học phí hoặc đã đóng tiền cabin
+          }
+          return 3; // đã hết lượt đặt tự động duyệt
         } 
       }
-      return 0;
+      return 1; // thông tin học viên không có trong CSDL
     }
 
     /**
@@ -96,22 +126,35 @@ class BookingController extends Controller
             'telephone_booking' => $telephone_booking,
         );
         $check_tuition = $this->checkTuitionFee($telephone_booking);
-        $data_create_update = array(
-            'name_booking' => $name_booking,
-            'email_booking' => $email_booking,
-            'status' => $check_tuition ? 2 : 1, // Nếu đã đóng tiền thì trạng thái tự duyệt là 2
-        );
-        $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
-        if($check_add_update){
-            return response()->json([
-                'api_name' => 'Đặt lịch học Cabin',
-                'message' => 'Đặt lịch học Cabin thành công',
-                'status' => 1,
-            ]);
+        if($check_tuition){
+          $data_create_update = array(
+              'name_booking' => $name_booking,
+              'email_booking' => $email_booking,
+              'status' => $check_tuition?$check_tuition:0, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
+          );
+          $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
+        }
+        if(!empty($check_add_update)){
+          if($check_tuition == 2){
+            $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn bị trừ tiền buổi trải nghiệm!';
+          }else if($check_tuition == 1){
+            $message = 'Xin chào học viên mới của chúng tôi<br />
+            Đăng ký trải nghiệm Cabin của bạn thành công và đang chờ duyệt!<br />
+            Cảm ơn bạn đã quan tâm đến trải nghiệm Cabin của Hoclaioto.net!';
+          } else if($check_tuition == 3){
+            $message = 'Đăng ký thành công và đang chờ duyệt<br />
+            Vì lý do không đủ lượt trải nghiệm<br />
+            Vui lòng liên hệ đến trung tâm để được hỗ trợ';
+          }
+          return response()->json([
+            'api_name' => 'Đặt lịch trải nghiệm Cabin',
+            'message' => $message,
+            'status' => 1,
+          ]);
         }else{
             return response()->json([
-                'api_name' => 'Đặt lịch học Cabin',
-                'message' => 'Đặt lịch học Cabin không thành công',
+                'api_name' => 'Đặt lịch trải nghiệm Cabin',
+                'message' => 'Đặt lịch trải nghiệm Cabin không thành công<br />Vui lòng thông báo nhân viên trung tâm để được hỗ trợ!',
                 'status' => 0,
             ]);
         }
@@ -324,5 +367,10 @@ class BookingController extends Controller
         'message' => 'Fail'
       ]);
     }
+  }
+
+  public function countBookingByTelephone($telephone){
+    $count_booking = Booking::where('telephone_booking',$telephone)->count();
+    return $count_booking;
   }
 }

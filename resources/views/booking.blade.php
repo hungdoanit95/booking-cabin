@@ -637,7 +637,7 @@
                     $('#alert-group').html('<div class="text-success">'+data.message+'</div>');
                     Swal.fire({
                       title: 'Thành công!',
-                      text: data.message,
+                      html: data.message,
                       icon: 'success'
                     }).then(function(isConfirm) {
                       window.location.reload(false);
@@ -646,7 +646,7 @@
                     $('#alert-group').html('<div class="text-danger">'+data.message+'</div>');
                     Swal.fire({
                       title: 'Thất bại!',
-                      text: data.message,
+                      html: data.message,
                       icon: 'error'
                     })
                   }
