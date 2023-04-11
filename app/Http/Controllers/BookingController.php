@@ -139,13 +139,9 @@ class BookingController extends Controller
           if($check_tuition == 2){
             $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
           }else if($check_tuition == 1){
-            $message = 'Xin chào học viên mới của chúng tôi<br />
-            Đăng ký trải nghiệm Cabin của bạn thành công và đang chờ duyệt!<br />
-            Cảm ơn bạn đã quan tâm đến trải nghiệm Cabin!';
+            $message = 'Vui lòng điền đúng số điện thoại đăng ký khóa học!';
           } else if($check_tuition == 3){
-            $message = 'Đăng ký thành công và đang chờ duyệt<br />
-            Vì lý do không đủ lượt trải nghiệm<br />
-            Vui lòng liên hệ đến trung tâm để được hỗ trợ';
+            $message = 'Bạn đã hết lượt đăng ký vui lòng đóng thêm tiền để đăng ký trải nghiệm';
           }
           return response()->json([
             'api_name' => 'Đặt lịch trải nghiệm Cabin',

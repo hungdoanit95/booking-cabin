@@ -21,6 +21,8 @@ class Student extends Model
         'telephone', // Cột L Điện thoại
         'telephone2', // Cột M SDT khác
         'id_student', // Cột N Id student
+        'exam_evenue', // Cột CK Địa điểm thi (máy đặt cabin). Một cabin sẽ đại diện cho 1 địa điểm và dựa vào địa điểm thi để cho học viên đăng ký sử dụng
+        'exam_course', // Cột CL Khóa thi
         'date_give_card', //Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
     ];
 }

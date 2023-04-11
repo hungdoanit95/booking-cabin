@@ -26,6 +26,9 @@ class CreateStudentsTable extends Migration
             $table->string('telephone2')->nullable(); // Cột M SDT khác
             $table->string('id_student'); // Cột N Id student
             $table->string('date_give_card')->nullable(); // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
+            $table->string('exam_evenue')->nullable(); // Cột CK Địa điểm thi (máy đặt cabin). Một cabin sẽ đại diện cho 1 địa điểm và dựa vào địa điểm thi để cho học viên đăng ký sử dụng
+            $table->string('exam_course')->nullable(); // Cột CL Khóa thi
+            $table->string('date_give_card')->nullable(); // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
             $table->timestamps();
         });
     }

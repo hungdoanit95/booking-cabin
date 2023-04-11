@@ -116,6 +116,8 @@ class GoogleSheetCommand extends Command
 								'telephone2' =>  isset($value[11])?$value[11]:'', // Cột M SDT khác
 								'id_student' =>  isset($value[12])?$value[12]:'', // Cột N CMND
 								'date_give_card' => isset($value[13])?$value[13]:'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
+								'exam_evenue' => isset($value[88])?$value[88]:'', // Cột CK Địa điểm thi (máy đặt cabin). Một cabin sẽ đại diện cho 1 địa điểm và dựa vào địa điểm thi để cho học viên đăng ký sử dụng
+								'exam_course' => isset($value[89])?$value[89]:'', // Cột CL Khóa thi
 							]);
 							$student_id = DB::getPdo()->lastInsertId();
 							DB::table('certificates')->updateOrInsert([
