@@ -37,6 +37,8 @@ class BookingController extends Controller
           'quận gò vấp', 'quận gò vấp',
           'Quận 9', 'Quận 2', 'Thủ Đức', 'Thủ Đức 2 (Trạm xăng Tam Bình)'
         );
+        $this->exam_evenue = array();
+        $this->exam_course = array();
     }
     public function index(){
         $time_books = TimeBooks::all()->toArray();
@@ -70,6 +72,12 @@ class BookingController extends Controller
           // Nếu Đủ 100% tiền, sông tại HCM miến phí 1 giờ học
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
+          }
+          if(!empty($this->exam_evenue) && count($this->exam_evenue) > 0 && !in_array($tuition_detail['exam_evenue'], $this->exam_evenue)){
+            return 4; // Địa điểm thi không hợp lệ
+          }
+          if(!empty($this->exam_course) && count($this->exam_course) > 0 && !in_array($tuition_detail['exam_course'], $this->exam_course)){
+            return 5; // Khóa học không hợp lệ
           }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
           if($times_can_booking > $times_booked){
@@ -127,7 +135,7 @@ class BookingController extends Controller
             'telephone_booking' => $telephone_booking,
         );
         $check_tuition = $this->checkTuitionFee($telephone_booking);
-        if($check_tuition){
+        if($check_tuition == 2){
           $data_create_update = array(
               'name_booking' => $name_booking,
               'email_booking' => $email_booking,
@@ -142,6 +150,10 @@ class BookingController extends Controller
             $message = 'Vui lòng điền đúng số điện thoại đăng ký khóa học!';
           } else if($check_tuition == 3){
             $message = 'Bạn đã hết lượt đăng ký vui lòng đóng thêm tiền để đăng ký trải nghiệm';
+          } else if($check_tuition == 4){
+            $message = 'Địa điểm thi không đáp ứng vui lòng đăng ký địa điểm thi phù hợp';
+          } else if($check_tuition == 5){
+            $message = 'Khóa học không bạn tham gia không thể đăng ký Cabin';
           }
           return response()->json([
             'api_name' => 'Đặt lịch trải nghiệm Cabin',

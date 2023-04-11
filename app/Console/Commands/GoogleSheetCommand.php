@@ -90,8 +90,9 @@ class GoogleSheetCommand extends Command
   public function readFileGoogleSheet($service){
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
-			"1RRnid17d5uRWVynZv9B6QPBkFu6e4rTDbCrUvoox4og",
-			"1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ",
+			"1RRnid17d5uRWVynZv9B6QPBkFu6e4rTDbCrUvoox4og", // 2021
+			"1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ", // 2022
+			"1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU", // 2023
 		];
 		$range = 'HocVien!A3:CM';
 		// get values
@@ -113,9 +114,9 @@ class GoogleSheetCommand extends Command
 								'course_planed' =>  isset($value[4])?$value[4]:'', // Cột E: Khoá dự kiến Dành cho CSKH
 								'birthday' =>  isset($value[9])?trim($value[9]):'', // Cột J Ngày sinh
 								'address' =>  isset($value[10])?$value[10]:'', // Cột k Địa chỉ
-								'telephone2' =>  isset($value[11])?$value[11]:'', // Cột M SDT khác
-								'id_student' =>  isset($value[12])?$value[12]:'', // Cột N CMND
-								'date_give_card' => isset($value[13])?$value[13]:'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
+								'telephone2' =>  isset($value[12])?$value[12]:'', // Cột M SDT khác
+								'id_student' =>  isset($value[13])?$value[13]:'', // Cột N CMND
+								'date_give_card' => isset($value[14])?$value[14]:'', // Cột O Ngày cấp thẻ học nghề (ĐỐI VỚI BĐXN)
 								'exam_evenue' => isset($value[88])?$value[88]:'', // Cột CK Địa điểm thi (máy đặt cabin). Một cabin sẽ đại diện cho 1 địa điểm và dựa vào địa điểm thi để cho học viên đăng ký sử dụng
 								'exam_course' => isset($value[89])?$value[89]:'', // Cột CL Khóa thi
 							]);
@@ -137,8 +138,8 @@ class GoogleSheetCommand extends Command
 							DB::table('courses')->updateOrInsert([
 								'student_id' => isset($student_id)?$student_id:''
 							],[
-								'time_practice' => isset($value[15])?$value[15]:'',
-								'address_practice' => isset($value[16])?$value[16]:'',
+								'time_practice' => isset($value[15])?$value[15]:'', // Cột P Giờ thực hành(Giờ)
+								'address_practice' => isset($value[16])?$value[16]:'', // Cột Q Địa điểm học thực hành
 								'total_time' => isset($value[17])?$value[17]:'',
 								'time_practiced' => isset($value[18])?$value[18]:'',
 								'time_unpracticed' => isset($value[19])?$value[19]:'',
