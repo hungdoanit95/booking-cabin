@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:google_sheet_api')->everyMinute();
+        $schedule->command('command:google_sheet_api')->hourly();
     }
 
     /**

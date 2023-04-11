@@ -64,10 +64,11 @@ class HomeController extends Controller
       $user_login = Auth::user();
       return view('home',[
         'datas' => !empty($datas)?$datas:array(),
+        'user_login' => $user_login,
         'filter' => [
           'student_phonecode' => $student_phonecode,
           'date_booking' => $date_booking,
-          'status' => $status
+          'status' => $status,
         ]
       ]);
   }

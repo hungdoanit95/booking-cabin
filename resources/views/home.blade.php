@@ -107,25 +107,40 @@
                         </div>
                         <div style="overflow: auto">
                             <table class="table table-bordered">
+                              @if($user_login->group_id)
                                 <thead>
                                     <th>Mã khóa học</th>
                                     <th>Mã học viên</th>
                                     <th>Họ tên học viên</th>
                                     <th>Số điện thoại viên</th>
-                                    <th>Ngày Dky trải nghiệm</th>
-                                    <th>Thời gian Dky</th>
+                                    <th>Ngày</th>
+                                    <th>Thời gian</th>
                                     <th>Ghi chú của Hv</th>
-                                    <th>Học phí</th>
-                                    <th>Học phí đã đóng</th>
-                                    <th>Học phí còn thiếu</th>
-                                    <th>Học phí Cabin</th>
-                                    <th>Ngày nộp Hp Cabin</th>
                                     <th>Trạng thái</th>
                                     <th></th>
                                 </thead>
+                              @elseif($user_login->group_id == 2)
+                              <thead>
+                                  <th>Mã khóa học</th>
+                                  <th>Mã học viên</th>
+                                  <th>Họ tên học viên</th>
+                                  <th>Số điện thoại viên</th>
+                                  <th>Ngày</th>
+                                  <th>Thời gian</th>
+                                  <th>Ghi chú của Hv</th>
+                                  <th>Học phí</th>
+                                  <th>Học phí đã đóng</th>
+                                  <th>Học phí còn thiếu</th>
+                                  <th>Học phí Cabin</th>
+                                  <th>Ngày nộp Hp Cabin</th>
+                                  <th>Trạng thái</th>
+                                  <th></th>
+                              </thead>
+                              @endif
                                 <tbody>
                                     @if(!empty($datas) && count($datas) > 0)
                                         @foreach($datas as $data)
+                                          @if($user_login->group_id)
                                             <tr {!! ((!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3))?'class="row-delete"':''; !!} id="row-{{$data['id']}}">
                                                 <td><b>{{$data['course_code']}}</b></td>
                                                 <td>{{$data['student_code']}}</td>
@@ -134,11 +149,6 @@
                                                 <td>{{$data['date_booking']}}</td>
                                                 <td>{{$data['time_value']}}</td>
                                                 <td>{{$data['notes_booking']}}</td>
-                                                <td>{{$data['tuition_total']}}</td>
-                                                <td>{{$data['tuition_paid']}}</td>
-                                                <td>{{$data['tuition_unpaid']}}</td>
-                                                <td>{{$data['date_payout']}}</td>
-                                                <td>{{$data['cabin_money']}}</td>
                                                 <td {!! (!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3)?'style="text-decoration: unset;':'' !!}>
                                                   @if(!empty($data['status']) && in_array($data['status'],[1,2]))
                                                   <select html-value="{{ $data['status'] }}" disabled name="status" class="{!! $data['status'] == 1?'text-warning':($data['status'] == 2?'text-success':'text-danger') !!}" id="status">
@@ -162,6 +172,44 @@
                                                     @endif
                                                 </td>
                                             </tr>
+                                          @elseif($user_login->group_id == 2)
+                                            <tr {!! ((!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3))?'class="row-delete"':''; !!} id="row-{{$data['id']}}">
+                                              <td><b>{{$data['course_code']}}</b></td>
+                                              <td>{{$data['student_code']}}</td>
+                                              <td>{{$data['name_booking']}}</td>
+                                              <td>{{$data['telephone_booking']}}</td>
+                                              <td>{{$data['date_booking']}}</td>
+                                              <td>{{$data['time_value']}}</td>
+                                              <td>{{$data['notes_booking']}}</td>
+                                              <td>{{$data['tuition_total']}}</td>
+                                              <td>{{$data['tuition_paid']}}</td>
+                                              <td>{{$data['tuition_unpaid']}}</td>
+                                              <td>{{$data['date_payout']}}</td>
+                                              <td>{{$data['cabin_money']}}</td>
+                                              <td {!! (!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3)?'style="text-decoration: unset;':'' !!}>
+                                                @if(!empty($data['status']) && in_array($data['status'],[1,2]))
+                                                <select html-value="{{ $data['status'] }}" disabled name="status" class="{!! $data['status'] == 1?'text-warning':($data['status'] == 2?'text-success':'text-danger') !!}" id="status">
+                                                  <option {!! $data['status'] == 1?'selected':'' !!} value="1" class="text-warning">Chờ duyệt</option>
+                                                  <option {!! $data['status'] == 2?'selected':'' !!} value="2">Đã duyệt</option>
+                                                </select>
+                                                @endif
+                                                
+                                                @if(!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3)
+                                                <span style="padding: 2px" class="text-danger">Đã hủy</span>
+                                                @endif
+                                                @if(!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 4)
+                                                <span style="padding: 2px" class="text-default">Chưa xác định</span>
+                                                @endif
+                                              </td>
+                                              <td>
+                                                  @if(!in_array($data['status'],[2,3]))
+                                                    <button html-value="{{$data['id']}}" class="btn btn-info btn-save-build hidden"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                                                    <button class="btn btn-info btn-edit-build"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button class="btn btn-danger" onClick="deleteBookingId({{$data['id']}})"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                  @endif
+                                              </td>
+                                            </tr>
+                                          @endif
                                         @endforeach
                                     @else
                                     <tr>

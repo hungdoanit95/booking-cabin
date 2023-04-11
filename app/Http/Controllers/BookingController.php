@@ -31,13 +31,13 @@ class BookingController extends Controller
           'quận 4', 'quận 5', 'quận 6',
           'quận 8', 'quận 10', 'quận 11',
           'quận phú nhuận','phú nhuận',
-          'quận bình thạnh', 'quận bình thạnh',
-          'quận tân phú', 'quận tân phú',
-          'quận tân bình', 'quận tân bình',
-          'quận gò vấp', 'quận gò vấp',
-          'Quận 9', 'Quận 2', 'Thủ Đức', 'Thủ Đức 2 (Trạm xăng Tam Bình)'
+          'quận bình thạnh', 'bình thạnh',
+          'quận tân phú', 'tân phú',
+          'quận tân bình', 'tân bình',
+          'quận gò vấp', 'gò vấp',
+          'quận 9', 'quận 2', 'thủ đức', 'quận thủ đức', 'thủ đức 2 (trạm xăng tam bình)'
         );
-        $this->exam_evenue = array();
+        $this->exam_venue = array('đồng nai');
         $this->exam_course = array();
     }
     public function index(){
@@ -73,7 +73,7 @@ class BookingController extends Controller
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
-          if(!empty($this->exam_evenue) && count($this->exam_evenue) > 0 && !in_array($tuition_detail['exam_evenue'], $this->exam_evenue)){
+          if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array($tuition_detail['exam_evenue'], $this->exam_venue)){
             return 4; // Địa điểm thi không hợp lệ
           }
           if(!empty($this->exam_course) && count($this->exam_course) > 0 && !in_array($tuition_detail['exam_course'], $this->exam_course)){
