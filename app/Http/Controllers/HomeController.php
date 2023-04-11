@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use SheetDB\SheetDB;
 use App\Models\Booking;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -60,6 +61,7 @@ class HomeController extends Controller
       'status',
       'booking_cabin.id as id'
     )->get();
+      $user_login = Auth::user();
       return view('home',[
         'datas' => !empty($datas)?$datas:array(),
         'filter' => [

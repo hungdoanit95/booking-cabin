@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Cabins;
 use Database\Seeders\TimeBooks;
+use Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,5 +18,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(Cabins::class);
         $this->call(TimeBooks::class);
+        $this->call(UserSeeder::class);
     }
 }

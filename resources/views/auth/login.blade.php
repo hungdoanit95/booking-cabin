@@ -14,7 +14,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Tài khoản') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-8">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -55,9 +55,6 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <button class="btn btn-block mb-2 btn-primary" type="submit"><i data-feather="Đăng nhập"></i> Đăng nhập</button>
-                            </div>
-                            <div class="col-sm-12 text-center">
-                                <a class="mb-2" target="_blank" href="{{ route('register') }}"><i data-feather="Đăng ký"></i> Bạn chưa có tài khoản</a>
                             </div>
                         </div>
                     </form>
