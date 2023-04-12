@@ -107,7 +107,7 @@
                         </div>
                         <div style="overflow: auto">
                             <table class="table table-bordered">
-                              @if($user_login->group_id)
+                              @if($user_login->group_id == 1)
                                 <thead>
                                     <th>Mã khóa học</th>
                                     <th>Mã học viên</th>
@@ -140,7 +140,7 @@
                                 <tbody>
                                     @if(!empty($datas) && count($datas) > 0)
                                         @foreach($datas as $data)
-                                          @if($user_login->group_id)
+                                          @if($user_login->group_id == 1)
                                             <tr {!! ((!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3))?'class="row-delete"':''; !!} id="row-{{$data['id']}}">
                                                 <td><b>{{$data['course_code']}}</b></td>
                                                 <td>{{$data['student_code']}}</td>

@@ -144,9 +144,14 @@ class BookingController extends Controller
           $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
         }
         if(!empty($check_add_update)){
-          if($check_tuition == 2){
-            $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
-          }else if($check_tuition == 1){
+          $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
+          return response()->json([
+            'api_name' => 'Đặt lịch trải nghiệm Cabin',
+            'message' => $message,
+            'status' => 1,
+          ]);
+        }else{
+          if($check_tuition == 1){
             $message = 'Vui lòng điền đúng số điện thoại đăng ký khóa học!';
           } else if($check_tuition == 3){
             $message = 'Bạn đã hết lượt đăng ký vui lòng đóng thêm tiền để đăng ký trải nghiệm';
@@ -155,15 +160,9 @@ class BookingController extends Controller
           } else if($check_tuition == 5){
             $message = 'Khóa học không bạn tham gia không thể đăng ký Cabin';
           }
-          return response()->json([
-            'api_name' => 'Đặt lịch trải nghiệm Cabin',
-            'message' => $message,
-            'status' => 1,
-          ]);
-        }else{
             return response()->json([
                 'api_name' => 'Đặt lịch trải nghiệm Cabin',
-                'message' => 'Đặt lịch trải nghiệm Cabin không thành công<br />Vui lòng thông báo nhân viên trung tâm để được hỗ trợ!',
+                'message' => $message,
                 'status' => 0,
             ]);
         }
