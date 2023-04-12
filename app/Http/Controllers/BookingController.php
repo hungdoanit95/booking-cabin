@@ -64,7 +64,7 @@ class BookingController extends Controller
       ->where('students.telephone',$telephone)
       ->first();
       if(!empty($tuition_detail)){
-        if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
+        // if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
           $times_can_booking =  0;
           if((int)$this->price_hour > 0 && (int)$tuition_detail['cabin_money'] >= (int)$this->price_total){
             $times_can_booking =  floor((int)$tuition_detail['cabin_money']/$this->price_hour) > 0 ? floor((int)$tuition_detail['cabin_money']/$this->price_hour) : 0; // số lần có thể bookg
@@ -73,7 +73,7 @@ class BookingController extends Controller
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
-          // if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
+          // if(!in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
           //   return 4; // Địa điểm thi không hợp lệ
           // }
           // if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
@@ -84,7 +84,7 @@ class BookingController extends Controller
             return 2; // đã đóng đủ tiền hoặc đã đóng tiền cabin
           }
           return 3; // đã hết lượt đặt tự động duyệt
-        } 
+        // }
       }
       return 1; // thông tin học viên không có trong CSDL
     }
@@ -135,38 +135,38 @@ class BookingController extends Controller
             'telephone_booking' => $telephone_booking,
         );
         $check_tuition = $this->checkTuitionFee($telephone_booking);
-        // if($check_tuition == 2){
+        if($check_tuition == 2){
           $data_create_update = array(
               'name_booking' => $name_booking,
               'email_booking' => $email_booking,
-              'status' => 2, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
+              'status' => $check_tuition?$check_tuition:0, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
           );
           $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
-        // }
-        // if(!empty($check_add_update)){
-          // if($check_tuition == 2){
+        }
+        if(!empty($check_add_update)){
+          if($check_tuition == 2){
             $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
-          // }else if($check_tuition == 1){
-          //   $message = 'Vui lòng điền đúng số điện thoại đăng ký khóa học!';
-          // } else if($check_tuition == 3){
-          //   $message = 'Bạn đã hết lượt đăng ký vui lòng đóng thêm tiền để đăng ký trải nghiệm';
-          // } else if($check_tuition == 4){
-          //   $message = 'Địa điểm thi không đáp ứng vui lòng đăng ký địa điểm thi phù hợp';
-          // } else if($check_tuition == 5){
-          //   $message = 'Khóa học không bạn tham gia không thể đăng ký Cabin';
-          // }
+          }else if($check_tuition == 1){
+            $message = 'Vui lòng điền đúng số điện thoại đăng ký khóa học!';
+          } else if($check_tuition == 3){
+            $message = 'Bạn đã hết lượt đăng ký vui lòng đóng thêm tiền để đăng ký trải nghiệm';
+          } else if($check_tuition == 4){
+            $message = 'Địa điểm thi không đáp ứng vui lòng đăng ký địa điểm thi phù hợp';
+          } else if($check_tuition == 5){
+            $message = 'Khóa học không bạn tham gia không thể đăng ký Cabin';
+          }
           return response()->json([
             'api_name' => 'Đặt lịch trải nghiệm Cabin',
             'message' => $message,
             'status' => 1,
           ]);
-        // }else{
-        //     return response()->json([
-        //         'api_name' => 'Đặt lịch trải nghiệm Cabin',
-        //         'message' => 'Đặt lịch trải nghiệm Cabin không thành công<br />Vui lòng thông báo nhân viên trung tâm để được hỗ trợ!',
-        //         'status' => 0,
-        //     ]);
-        // }
+        }else{
+            return response()->json([
+                'api_name' => 'Đặt lịch trải nghiệm Cabin',
+                'message' => 'Đặt lịch trải nghiệm Cabin không thành công<br />Vui lòng thông báo nhân viên trung tâm để được hỗ trợ!',
+                'status' => 0,
+            ]);
+        }
     }
 
     public function viewFindBooking(){
