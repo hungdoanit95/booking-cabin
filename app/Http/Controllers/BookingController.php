@@ -83,7 +83,7 @@ class BookingController extends Controller
           if($times_can_booking > $times_booked){
             return 2; // đã đóng đủ tiền hoặc đã đóng tiền cabin
           }
-          return 3; // đã hết lượt đặt tự động duyệt
+          return 2; // đã hết lượt đặt tự động duyệt
         // }
       }
       return 1; // thông tin học viên không có trong CSDL
@@ -135,6 +135,7 @@ class BookingController extends Controller
             'telephone_booking' => $telephone_booking,
         );
         $check_tuition = $this->checkTuitionFee($telephone_booking);
+        return $check_tuition;
         if($check_tuition == 2){
           $data_create_update = array(
               'name_booking' => $name_booking,
