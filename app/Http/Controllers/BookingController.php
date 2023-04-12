@@ -135,7 +135,6 @@ class BookingController extends Controller
             'telephone_booking' => $telephone_booking,
         );
         $check_tuition = $this->checkTuitionFee($telephone_booking);
-        return $check_tuition;
         if($check_tuition == 2){
           $data_create_update = array(
               'name_booking' => $name_booking,
