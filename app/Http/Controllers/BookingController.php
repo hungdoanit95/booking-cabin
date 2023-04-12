@@ -38,7 +38,7 @@ class BookingController extends Controller
           'quận 9', 'quận 2', 'thủ đức', 'quận thủ đức', 'thủ đức 2 (trạm xăng tam bình)'
         );
         $this->exam_venue = array('đồng nai');
-        $this->exam_course = array();
+        $this->exam_course = 'cabin';
     }
     public function index(){
         $time_books = TimeBooks::all()->toArray();
@@ -73,10 +73,10 @@ class BookingController extends Controller
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
-          if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array($tuition_detail['exam_evenue'], $this->exam_venue)){
+          if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
             return 4; // Địa điểm thi không hợp lệ
           }
-          if(!empty($this->exam_course) && count($this->exam_course) > 0 && !in_array($tuition_detail['exam_course'], $this->exam_course)){
+          if(!empty($tuition_detail['exam_course']) && strtolower($tuition_detail['exam_course']) == $this->exam_course){
             return 5; // Khóa học không hợp lệ
           }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
@@ -309,6 +309,20 @@ class BookingController extends Controller
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
               'message' => 'Số điện thoại của bạn không tồn tại trong danh sách học viên của hệ thống!'
+          ]);
+        }
+        if(!empty($student_info['exam_evenue']) && !in_array(strtolower($student_info['exam_evenue']), $this->exam_venue)){
+          return response()->json([
+              'api_name' => 'Api xét mã OPT',
+              'status' => 0,
+              'message' => 'Điểm thi của bạn không phù hợp để đặt!'
+          ]);
+        }
+        if(!empty($student_info['exam_course']) && strtolower($student_info['exam_course']) == $this->exam_course){
+          return response()->json([
+              'api_name' => 'Api xét mã OPT',
+              'status' => 0,
+              'message' => 'Bạn chưa thể tham gia khóa học Cabin vui lòng đặt lại khi đủ điều kiện tham gia!'
           ]);
         }
         $new_otp_code = rand(100000,999999);
