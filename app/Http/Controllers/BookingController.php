@@ -139,12 +139,12 @@ class BookingController extends Controller
           $data_create_update = array(
               'name_booking' => $name_booking,
               'email_booking' => $email_booking,
-              'status' => $check_tuition?$check_tuition:0, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
+              'status' => 2, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
           );
           $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
         // }
         // if(!empty($check_add_update)){
-        //   if($check_tuition == 2){
+          // if($check_tuition == 2){
             $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
           // }else if($check_tuition == 1){
           //   $message = 'Vui lòng điền đúng số điện thoại đăng ký khóa học!';
