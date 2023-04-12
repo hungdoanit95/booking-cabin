@@ -64,7 +64,7 @@ class BookingController extends Controller
       ->where('students.telephone',$telephone)
       ->first();
       if(!empty($tuition_detail)){
-        // if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
+        if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
           $times_can_booking =  0;
           if((int)$this->price_hour > 0 && (int)$tuition_detail['cabin_money'] >= (int)$this->price_total){
             $times_can_booking =  floor((int)$tuition_detail['cabin_money']/$this->price_hour) > 0 ? floor((int)$tuition_detail['cabin_money']/$this->price_hour) : 0; // số lần có thể bookg
@@ -73,18 +73,18 @@ class BookingController extends Controller
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
-          // if(!in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
-          //   return 4; // Địa điểm thi không hợp lệ
-          // }
-          // if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
-          //   return 5; // Khóa học không hợp lệ
-          // }
+          if(!in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
+            return 4; // Địa điểm thi không hợp lệ
+          }
+          if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
+            return 5; // Khóa học không hợp lệ
+          }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
           if($times_can_booking > $times_booked){
             return 2; // đã đóng đủ tiền hoặc đã đóng tiền cabin
           }
-          return 2; // đã hết lượt đặt tự động duyệt
-        // }
+        }
+        return 3; // Hết lượt trải nghiệm ~ hết tiền
       }
       return 1; // thông tin học viên không có trong CSDL
     }
