@@ -73,12 +73,12 @@ class BookingController extends Controller
           if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
             $times_can_booking = $times_can_booking + 1;
           }
-          if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
-            return 4; // Địa điểm thi không hợp lệ
-          }
-          if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
-            return 5; // Khóa học không hợp lệ
-          }
+          // if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
+          //   return 4; // Địa điểm thi không hợp lệ
+          // }
+          // if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
+          //   return 5; // Khóa học không hợp lệ
+          // }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
           if($times_can_booking > $times_booked){
             return 2; // đã đóng đủ tiền hoặc đã đóng tiền cabin
