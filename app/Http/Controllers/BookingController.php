@@ -76,7 +76,7 @@ class BookingController extends Controller
           if(!empty($this->exam_venue) && count($this->exam_venue) > 0 && !in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
             return 4; // Địa điểm thi không hợp lệ
           }
-          if(!empty($tuition_detail['exam_course']) && strtolower($tuition_detail['exam_course']) == $this->exam_course){
+          if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
             return 5; // Khóa học không hợp lệ
           }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
@@ -311,14 +311,14 @@ class BookingController extends Controller
               'message' => 'Số điện thoại của bạn không tồn tại trong danh sách học viên của hệ thống!'
           ]);
         }
-        if(!empty($student_info['exam_evenue']) && !in_array(strtolower($student_info['exam_evenue']), $this->exam_venue)){
+        if(empty($student_info['exam_evenue']) || !in_array(strtolower($student_info['exam_evenue']), $this->exam_venue)){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
               'message' => 'Điểm thi của bạn không phù hợp để đặt!'
           ]);
         }
-        if(!empty($student_info['exam_course']) && strtolower($student_info['exam_course']) == $this->exam_course){
+        if(empty($student_info['exam_course']) || strtolower($student_info['exam_course']) != $this->exam_course){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
