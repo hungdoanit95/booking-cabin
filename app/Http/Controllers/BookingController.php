@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Student;
 use App\Models\BlacklistPhone;
 use App\Repositories\Booking\BookingInterface;
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -35,9 +36,9 @@ class BookingController extends Controller
           'quận tân phú', 'tân phú',
           'quận tân bình', 'tân bình',
           'quận gò vấp', 'gò vấp',
-          'quận 9', 'quận 2', 'thủ đức', 'quận thủ đức', 'thủ đức 2 (trạm xăng tam bình)'
+          'quận 9', 'quận 2', 'thủ đức', 'quận thủ đức', 'thủ đức'
         );
-        $this->exam_venue = array('đồng nai');
+        $this->exam_venue_dn = 'đồng nai';
         $this->exam_course = 'cabin';
     }
     public function index(){
@@ -64,19 +65,23 @@ class BookingController extends Controller
       ->where('students.telephone',$telephone)
       ->first();
       if(!empty($tuition_detail)){
-        if((int)$tuition_detail['tuition_paid'] == (int)$tuition_detail['tuition_total'] && (int)$tuition_detail['tuition_unpaid'] == 0){
+        $tuition_paid = (int)str_replace('.','',$tuition_detail['tuition_paid']);
+        $tuition_total = (int)str_replace('.','',$tuition_detail['tuition_total']);
+        $tuition_unpaid = (int)str_replace('.','',$tuition_detail['tuition_unpaid']);
+        $cabin_money = (int)str_replace('.','',$tuition_detail['cabin_money']);
+        if($tuition_paid == $tuition_total && $tuition_unpaid == 0){
           $times_can_booking =  0;
-          if((int)$this->price_hour > 0 && (int)$tuition_detail['cabin_money'] >= (int)$this->price_total){
-            $times_can_booking =  floor((int)$tuition_detail['cabin_money']/$this->price_hour) > 0 ? floor((int)$tuition_detail['cabin_money']/$this->price_hour) : 0; // số lần có thể bookg
+          if((int)$this->price_hour > 0 && (int)$cabin_money >= (int)$this->price_total){
+            $times_can_booking =  floor((int)$cabin_money/$this->price_hour) > 0 ? floor((int)$cabin_money/$this->price_hour) : 0; // số lần có thể bookg
           }
           // Nếu Đủ 100% tiền, sông tại HCM miến phí 1 giờ học
-          if($this->is_tphcm === true && in_array(strtolower($tuition_detail['register']),$this->district_hcm)){
+          if($this->is_tphcm === true && ($tuition_detail['register'] == 'Thủ Đức 2 (Trạm xăng Tam Bình)' || in_array(strtolower(mb_convert_encoding($tuition_detail['register'], 'UTF-8', 'UTF-8')),$this->district_hcm))){
             $times_can_booking = $times_can_booking + 1;
           }
-          if(!in_array(strtolower($tuition_detail['exam_evenue']), $this->exam_venue)){
+          if(Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn){
             return 4; // Địa điểm thi không hợp lệ
           }
-          if(empty($tuition_detail['exam_course']) || strtolower($tuition_detail['exam_course']) != $this->exam_course){
+          if(empty($tuition_detail['exam_course']) || Str::lower($tuition_detail['exam_course']) != $this->exam_course){
             return 5; // Khóa học không hợp lệ
           }
           $times_booked = $this->countBookingByTelephone($telephone); // đã book
@@ -310,14 +315,14 @@ class BookingController extends Controller
               'message' => 'Số điện thoại của bạn không tồn tại trong danh sách học viên của hệ thống!'
           ]);
         }
-        if(empty($student_info['exam_evenue']) || !in_array(strtolower($student_info['exam_evenue']), $this->exam_venue)){
+        if(empty($student_info['exam_evenue']) || Str::lower($student_info['exam_evenue']) != $this->exam_venue_dn){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
               'message' => 'Điểm thi của bạn không phù hợp để đặt!'
           ]);
         }
-        if(empty($student_info['exam_course']) || strtolower($student_info['exam_course']) != $this->exam_course){
+        if(empty($student_info['exam_course']) || Str::lower($student_info['exam_course']) != $this->exam_course){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
