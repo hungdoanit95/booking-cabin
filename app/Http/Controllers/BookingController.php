@@ -160,11 +160,11 @@ class BookingController extends Controller
           } else if($check_tuition == 5){
             $message = 'Khóa học không bạn tham gia không thể đăng ký Cabin';
           }
-            return response()->json([
-                'api_name' => 'Đặt lịch trải nghiệm Cabin',
-                'message' => $message,
-                'status' => 0,
-            ]);
+          return response()->json([
+            'api_name' => 'Đặt lịch trải nghiệm Cabin',
+            'message' => $message,
+            'status' => 0,
+          ]);
         }
     }
 
