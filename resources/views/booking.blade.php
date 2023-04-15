@@ -3,6 +3,9 @@
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css">
+<link rel="stylesheet" href="{{asset('assets/lib-datetime/themes/default.css')}}">
+<link rel="stylesheet" href="{{asset('assets/lib-datetime/themes/default.date.css')}}">
+<link rel="stylesheet" href="{{asset('assets/lib-datetime/themes/default.time.css')}}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 <style>
     .btn-search{
@@ -300,14 +303,12 @@
                     <div class="form-group">
                         <h6>Ngày đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
                         <?php $current_date = date("Y-m-d"); ?>
-                        <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d', strtotime($current_date. ' + 2 days')) }}" value="{{ date('Y-m-d', strtotime($current_date. ' + 2 days')) }}" type="date" placeholder="Thời gian học">
+                        <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
                     </div>
                     <div class="form-group">
                       <h6>Thời gian học <span style="color: #f00">(*)</span></h6> <div id="alert-time"></div>
                       <div id="time-register">
-                        {{-- <swiper-container> --}}
                           @foreach($time_books as $time_book)
-                          {{-- <swiper-slide> --}}
                               <div class="slide-item">
                                 <div class="btn-item">
                                   @foreach($time_book as $books)
@@ -319,9 +320,7 @@
                                   @endforeach
                                 </div>
                               </div>
-                          {{-- </swiper-slide> --}}
                           @endforeach
-                        {{-- </swiper-container> --}}
                         <input id="time-choose" name="time_choose" type="hidden">
                       </div>
                     </div>
@@ -330,7 +329,7 @@
                         <textarea class="form-control"></textarea>
                     </div>
                     <div class="form-group">
-                        <p style="color: #f00; font-family: Arial">Lưu ý: Học viên đăng ký trải nghiệm Cabin nhưng không đến được vui lòng hủy lịch trước 48h. 
+                        <p style="color: #f00; font-family: Arial">Lưu ý: Học viên đăng ký trải nghiệm Cabin nhưng không đến được vui lòng hủy lịch trước 24h. 
                             <br/>Trường hợp không hủy hoặc không được hủy, thời gian trải nghiệm vẫn được tính chi phí cho học viên
                          </p>
                         <div class="confirm-box">
@@ -345,7 +344,6 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
 <script>
     const validateEmail = (email) => {
         return email.match(
@@ -375,18 +373,32 @@
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             dataType: 'json',
             success: function (res){
-                if(res?.data?.length > 0){
-                    res?.data?.map((i_time)=>{
-                        list_times_register?.forEach((btn_time)=>{
-                            if(i_time.time_id == btn_time.getAttribute('html-value')){
-                                btn_time.classList.add('btn-default');
-                                if(btn_time.classList.contains('btn-info')){
-                                    btn_time.classList.remove('btn-info');
-                                }
-                            }
-                        });
-                    });
-                }
+              let date_check =  new Date().toJSON().slice(0,10);
+              let hour_check =  new Date().toLocaleString().slice(0,2);
+              if(date_check == date_register){
+                let count_time = 6;
+                list_times_register?.forEach((btn_time)=>{
+                  if((parseInt(hour_check) + 2) > parseInt(count_time)){
+                    btn_time.classList.add('btn-default');
+                    if(btn_time.classList.contains('btn-info')){
+                      btn_time.classList.remove('btn-info');
+                    }
+                  }
+                  count_time++;
+                });
+              }
+              if(res?.data?.length > 0){
+                res?.data?.map((i_time)=>{
+                  list_times_register?.forEach((btn_time)=>{
+                      if(i_time.time_id == btn_time.getAttribute('html-value')){
+                          btn_time.classList.add('btn-default');
+                          if(btn_time.classList.contains('btn-info')){
+                              btn_time.classList.remove('btn-info');
+                          }
+                      }
+                  });
+                });
+              }
             }
         });
       }
@@ -863,4 +875,8 @@
     // });
 });
 </script>
+<script src="{{asset('assets/lib-datetime/picker.js')}}"></script>
+<script src="{{asset('assets/lib-datetime/picker.date.js')}}"></script>
+<script src="{{asset('assets/lib-datetime/picker.time.js')}}"></script>
+<script src="{{asset('assets/lib-datetime/legacy.js')}}"></script>
 @endsection
