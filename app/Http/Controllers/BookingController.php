@@ -40,6 +40,7 @@ class BookingController extends Controller
         );
         $this->exam_venue_dn = 'đồng nai';
         $this->exam_venue_bd = 'bình dương';
+        $this->exam_venue_daukhi = 'dầu khí';
         $this->exam_course = 'cabin';
     }
     public function index(){
@@ -79,7 +80,10 @@ class BookingController extends Controller
           if($this->is_tphcm === true && ($tuition_detail['register'] == 'Thủ Đức 2 (Trạm xăng Tam Bình)' || in_array(strtolower(mb_convert_encoding($tuition_detail['register'], 'UTF-8', 'UTF-8')),$this->district_hcm))){
             $times_can_booking = $times_can_booking + 1;
           }
-          if(Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_bd){
+          if(Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn 
+          && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_bd
+          && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_daukhi
+          ){
             return 4; // Địa điểm thi không hợp lệ
           }
           if(empty($tuition_detail['exam_course']) || Str::lower($tuition_detail['exam_course']) != $this->exam_course){
