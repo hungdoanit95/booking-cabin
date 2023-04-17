@@ -58,6 +58,7 @@ class HomeController extends Controller
       'tuition_unpaid',
       'date_payout',
       'cabin_money',
+      'address_id',
       'status',
       'booking_cabin.id as id'
     )->get();

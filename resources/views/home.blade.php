@@ -116,6 +116,7 @@
                                     <th>Ngày</th>
                                     <th>Thời gian</th>
                                     <th>Ghi chú của Hv</th>
+                                    <th>Địa chỉ</th>
                                     <th>Trạng thái</th>
                                     <th></th>
                                 </thead>
@@ -133,6 +134,7 @@
                                   <th>Học phí còn thiếu</th>
                                   <th>Học phí Cabin</th>
                                   <th>Ngày nộp Hp Cabin</th>
+                                  <th>Địa chỉ</th>
                                   <th>Trạng thái</th>
                                   <th></th>
                               </thead>
@@ -149,6 +151,7 @@
                                                 <td>{{$data['date_booking']}}</td>
                                                 <td>{{$data['time_value']}}</td>
                                                 <td>{{$data['notes_booking']}}</td>
+                                                <td>{!! ($data['address_id'] == 1)?'Bình Thạnh':'Tân Bình' !!}</td>
                                                 <td {!! (!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3)?'style="text-decoration: unset;':'' !!}>
                                                   @if(!empty($data['status']) && in_array($data['status'],[1,2]))
                                                   <select html-value="{{ $data['status'] }}" disabled name="status" class="{!! $data['status'] == 1?'text-warning':($data['status'] == 2?'text-success':'text-danger') !!}" id="status">
@@ -186,6 +189,7 @@
                                               <td>{{$data['tuition_unpaid']}}</td>
                                               <td>{{$data['date_payout']}}</td>
                                               <td>{{$data['cabin_money']}}</td>
+                                              <td>{!! ($data['address_id'] == 1)?'Bình Thạnh':'Tân Bình' !!}</td>
                                               <td {!! (!empty($data['status']) && !in_array($data['status'],[1,2]) && $data['status'] == 3)?'style="text-decoration: unset;':'' !!}>
                                                 @if(!empty($data['status']) && in_array($data['status'],[1,2]))
                                                 <select html-value="{{ $data['status'] }}" disabled name="status" class="{!! $data['status'] == 1?'text-warning':($data['status'] == 2?'text-success':'text-danger') !!}" id="status">

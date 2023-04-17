@@ -27,7 +27,7 @@ class BookingAdminController extends Controller
         $cabins = Cabins::all();
         $bookings = $this->bookingRepo->getBooking();
         $data_request = $request->all();
-        return View('admin-dat-lich',[
+        return view('admin-dat-lich',[
             'time_books' => array_chunk(array_chunk($time_books,5),2),
             'cabins' => $cabins,
             'fillter_data' => $data_request
