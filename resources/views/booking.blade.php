@@ -252,6 +252,7 @@
                 <div class="card-header" style="position: relative;">
                     <h2>{{ __('Đăng ký trải nghiệm Cabin') }}</h2>
                     <p>140 Cộng Hòa, P.4, Q. Tân Bình, Hồ Chí Minh (Tầng 10 - Trường ĐH Văn Hóa Nghệ Thuật Quân Đội - phía sau Nhà hát Quân Đội)</p>
+                    <p>180/28/23 Nguyễn Hữu Cảnh, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh</p>
                     <a href="/tim-kiem" class="btn btn-info btn-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                 </div>
 
