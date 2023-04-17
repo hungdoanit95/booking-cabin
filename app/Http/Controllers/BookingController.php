@@ -69,7 +69,7 @@ class BookingController extends Controller
         $tuition_total = (int)str_replace('.','',$tuition_detail['tuition_total']);
         $tuition_unpaid = (int)str_replace('.','',$tuition_detail['tuition_unpaid']);
         $cabin_money = (int)str_replace('.','',$tuition_detail['cabin_money']);
-        if($tuition_paid == $tuition_total && $tuition_unpaid == 0){
+        // if($tuition_paid == $tuition_total && $tuition_unpaid == 0){
           $times_can_booking =  0;
           if((int)$this->price_hour > 0 && (int)$cabin_money >= (int)$this->price_total){
             $times_can_booking =  floor((int)$cabin_money/$this->price_hour) > 0 ? floor((int)$cabin_money/$this->price_hour) : 0; // số lần có thể bookg
@@ -88,7 +88,7 @@ class BookingController extends Controller
           if($times_can_booking > $times_booked){
             return 2; // đã đóng đủ tiền hoặc đã đóng tiền cabin
           }
-        }
+        // }
         return 3; // Hết lượt trải nghiệm ~ hết tiền
       }
       return 1; // thông tin học viên không có trong CSDL
