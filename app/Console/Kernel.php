@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\GoogleSheetCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,9 +14,13 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+    protected $commands = [
+        Commands\GoogleSheetCommand::class,
+    ];
+
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:google_sheet_api')->hourly();
+        $schedule->command('command:google_sheet_api')->everyFifteenMinutes();
     }
 
     /**

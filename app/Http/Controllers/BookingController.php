@@ -39,6 +39,7 @@ class BookingController extends Controller
           'quận 9', 'quận 2', 'thủ đức', 'quận thủ đức', 'thủ đức'
         );
         $this->exam_venue_dn = 'đồng nai';
+        $this->exam_venue_bd = 'bình dương';
         $this->exam_course = 'cabin';
     }
     public function index(){
@@ -78,7 +79,7 @@ class BookingController extends Controller
           if($this->is_tphcm === true && ($tuition_detail['register'] == 'Thủ Đức 2 (Trạm xăng Tam Bình)' || in_array(strtolower(mb_convert_encoding($tuition_detail['register'], 'UTF-8', 'UTF-8')),$this->district_hcm))){
             $times_can_booking = $times_can_booking + 1;
           }
-          if(Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn){
+          if(Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_bd){
             return 4; // Địa điểm thi không hợp lệ
           }
           if(empty($tuition_detail['exam_course']) || Str::lower($tuition_detail['exam_course']) != $this->exam_course){
@@ -99,8 +100,8 @@ class BookingController extends Controller
      * Return 1: Đã có người đặt
      * Return 0: Chưa có người đặt
      * **/
-    public function checkTimeBooking($date_booking, $time_id){
-      $check_time = Booking::where('date_booking', $date_booking)->where('time_id',$time_id)->where('status',2)->first();
+    public function checkTimeBooking($date_booking, $time_id, $address_id){
+      $check_time = Booking::where('date_booking', $date_booking)->where('time_id',$time_id)->where('address_id',$address_id)->where('status',2)->first();
       if(!empty($check_time)){
         return 1;
       }else{
@@ -121,8 +122,9 @@ class BookingController extends Controller
         }
         $cabin_id = 0;
         $time_id = $request->time_val;
+        $address_id = $request->address_id;
         $date_booking = isset($request->date_val) ? $request->date_val : strtotime(date("Y-m-d")."+ 2 days");
-        if($this->checkTimeBooking($date_booking,$time_id)){
+        if($this->checkTimeBooking($date_booking,$time_id,$address_id)){
           return response()->json([
               'api_name' => 'Đặt lịch học Cabin',
               'message' => 'Thời gian đặt đã có người đặt vui lòng chọn thời gian khác',
@@ -144,6 +146,7 @@ class BookingController extends Controller
           $data_create_update = array(
               'name_booking' => $name_booking,
               'email_booking' => $email_booking,
+              'address_id' => $address_id,
               'status' => $check_tuition?$check_tuition:0, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
           );
           $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
@@ -229,7 +232,7 @@ class BookingController extends Controller
 
     public function checkTimeCabin(Request $request){
         $data_json = array();
-        $time_ids = Booking::where('date_booking',$request->date_booking)->where('status',2)->select('time_id')->get();
+        $time_ids = Booking::where('date_booking',$request->date_booking)->where('address_id',$request->address_id)->where('status',2)->select('time_id')->get();
         return response()->json([
             'api_name' => 'Lịch học Cabin đã đặt',
             'message' => 'Load dữ liệu thành công',
@@ -386,7 +389,10 @@ class BookingController extends Controller
   } 
 
   public function checkOtpSms(Request $request){
-    $check_otp = OtpData::where('telephone',$request['telephone'])->where('otp_code', $request['otp_code'])->first();
+    $check_otp = OtpData::where(function ($query) use ($request) {
+      $query->where('telephone',$request['telephone'])
+            ->orWhere('telephone',preg_replace('/^0/','',$request['telephone']));
+    })->where('otp_code', $request['otp_code'])->first();
     if($check_otp){
       $users = Student::where('telephone',$request['telephone'])->first();
       return response()->json([

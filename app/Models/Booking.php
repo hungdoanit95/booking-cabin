@@ -23,6 +23,7 @@ class Booking extends Model
         'notes_booking',
         'user_delete_id',
         'date_deleted',
+        'address_id',
         'status', // 1: Chưa duyệt / 2: Đã duyệt
     ];
 }

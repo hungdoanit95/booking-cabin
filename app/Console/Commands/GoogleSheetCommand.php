@@ -104,9 +104,10 @@ class GoogleSheetCommand extends Command
 					if(!empty($value[1]) || !empty($value[2])){ // Tồn tại mã học viên hoặc tên học viên
 						DB::beginTransaction();
 						try{
+							$tel_student = isset($value[11])?((strlen($value[11]) < 10)? '0'.$value[11] : $value[11]):'';
 							DB::table('students')->updateOrInsert([
 								'student_code' => isset($value[1])?$value[1]:'', // Cột B: Mã HV
-								'telephone' =>  isset($value[11])?$value[11]:'', // Cột L Điện thoại
+								'telephone' =>  $tel_student, // Cột L Điện thoại
 							],[
 								'time_hidden' => isset($value[0])?trim($value[0]):'', // Cột A: Dấu thời gian
 								'student_name' =>  isset($value[2])?$value[2]:'', // Cột C: Họ và Tên học viên

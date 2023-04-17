@@ -219,6 +219,12 @@
     -moz-transform: rotateX(-90deg);
     transform: rotateX(-90deg);
   }
+  #address-register select{
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+    border-radius: 0;
+  }
   @media (max-width: 768px){
     .card{
       border: 10px solid #1f3c5f;
@@ -306,6 +312,15 @@
                         <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
                     </div>
                     <div class="form-group">
+                      <h6>Địa chỉ đăng ký</h6>
+                      <div id="address-register">
+                        <select class="form-control">
+                          <option value="1">Bình Thạnh</option>
+                          <option value="2">Tân Bình</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
                       <h6>Thời gian học <span style="color: #f00">(*)</span></h6> <div id="alert-time"></div>
                       <div id="time-register">
                           @foreach($time_books as $time_book)
@@ -358,6 +373,7 @@
     function checkTimeCabin (){
       // xét lại thời gian
       let date_register = $('#date-register').val();
+      let address_id = $('#address-register select').val();
       if(date_register !== ''){
         let list_times_register = document.querySelectorAll('#time-register button');
         list_times_register?.forEach((btn_time)=>{
@@ -367,7 +383,8 @@
         $.ajax({
             url: '{{ route("check.time.cabin") }}',
             data: {
-                'date_booking': date_register
+                'date_booking': date_register,
+                'address_id': address_id
             },
             method: 'POST',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -407,8 +424,12 @@
     $(document).ready(()=>{
         checkTimeCabin();
         let err_message = '';
-        $('#date-register').on('focus',function(){
-          $('#date-register').addClass('is-valid');
+        $('#address-register select').on('focus',function(){
+          $('#address-register select').addClass('is-valid');
+          checkTimeCabin();
+        });
+        $('#address-register select').on('change',function(){
+          $('#address-register select').addClass('is-valid');
           checkTimeCabin();
         });
         $('#date-register').on('change',function(){
@@ -416,19 +437,19 @@
           checkTimeCabin();
         })
         $('#date-register').on('change',function(e){
-            let date_register = $(this).val();
-            let date_check =  new Date().toJSON().slice(0,10);
-            if(date_register >= date_check){
-                $(this).addClass('is-valid');
-                $(this).removeClass('is-invalid');
-                $('#alert-date *').remove();
-            }else{
-                $(this).removeClass('is-valid');
-                $('#alert-date *').remove();
-                $('#alert-date').html('<label class="text-danger">Ngày lựa chọn không hợp lệ</label>');
-                $('#date-register').addClass('is-invalid');
-                return;
-            }
+          let date_register = $(this).val();
+          let date_check =  new Date().toJSON().slice(0,10);
+          if(date_register >= date_check){
+            $(this).addClass('is-valid');
+            $(this).removeClass('is-invalid');
+            $('#alert-date *').remove();
+          }else{
+            $(this).removeClass('is-valid');
+            $('#alert-date *').remove();
+            $('#alert-date').html('<label class="text-danger">Ngày lựa chọn không hợp lệ</label>');
+            $('#date-register').addClass('is-invalid');
+            return;
+          }
         })
         // $('#name-register').on('change',function(e){
         //     let name_register = $(this).val();
@@ -689,6 +710,7 @@
             let cabin_val = $('#cabin-number').val();
             let time_val = $('#time-choose').val();
             let date_val = $('#date-register').val();
+            let address_id = $('#address-register select').val();
             let date_check =  new Date().toJSON().slice(0,10);
             if(date_val < date_check){
                 $('#alert-date').html('<div class="text-danger">Ngày đăng ký không hợp lệ vui lòng chọn lại</div>');
@@ -819,7 +841,8 @@
                     'date_check': date_check,
                     'name_val': name_val,
                     'email_val': email_val,
-                    'telephone_val': telephone_val
+                    'telephone_val': telephone_val,
+                    'address_id': address_id,
                 },
                 dataType: 'json',
                 success: function (data){
@@ -853,6 +876,17 @@
 </script>
 <script>
   $(document).ready(function() {
+    
+    $('#time-register .btn').click(function(){
+      if(!$('#address-register select').hasClass('is-valid')){
+        Swal.fire({
+          title: 'Lưu ý!',
+          text: 'Vui lòng chọn địa điểm trải nghiệm',
+          icon: 'error'
+        })
+        return;
+      }
+    });
     var audioElement = document.createElement('audio');
     audioElement.setAttribute('src', '{{ asset("assets/mp3/ting.mp3") }}');
     

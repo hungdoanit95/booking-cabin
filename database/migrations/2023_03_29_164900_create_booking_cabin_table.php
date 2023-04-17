@@ -26,6 +26,7 @@ class CreateBookingCabinTable extends Migration
             $table->string('notes_booking')->nullable();
             $table->integer('user_delete_id')->nullable();
             $table->string('date_deleted')->nullable();
+            $table->integer('address_id')->default(1);
             $table->integer('status')->default(1);// 1: Chờ duyệt, 2: Đã kích hoạt, 3: Hủy 
             $table->timestamps();
         });
