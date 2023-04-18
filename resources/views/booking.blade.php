@@ -292,26 +292,6 @@
                         <h6>Họ tên học viên</h6> <div id="alert-name"></div>
                         <input  class="form-control" readonly id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
                     </div>
-                    {{-- <div class="form-group">
-                        <h6>Email học viên (nếu có)</h6> <div id="alert-email"></div>
-                        <input class="form-control" type="email" id="email-register" name="email_register" placeholder="Email học viên">
-                    </div> --}}
-                    {{-- <div class="form-group">
-                        <h6>Điểm thi lúc đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-cabin"></div>
-                        <ul class="list-cabin" id="cabin-register">
-                            @foreach ($cabins as $cabin)
-                                <li>
-                                    <a href="javascript:void(0);" class="btn btn-primary" html-value={{ $cabin['id'] }}>{{ $cabin['name'] }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <input name="cabin_number" id="cabin-number" type="hidden" />
-                    </div> --}}
-                    <div class="form-group">
-                        <h6>Ngày đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
-                        <?php $current_date = date("Y-m-d"); ?>
-                        <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
-                    </div>
                     <div class="form-group">
                       <h6>Địa chỉ đăng ký</h6>
                       <div id="address-register">
@@ -320,6 +300,11 @@
                           <option value="2">Tân Bình</option>
                         </select>
                       </div>
+                    </div>
+                    <div class="form-group">
+                        <h6>Ngày đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
+                        <?php $current_date = date("Y-m-d"); ?>
+                        <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
                     </div>
                     <div class="form-group">
                       <h6>Thời gian học <span style="color: #f00">(*)</span></h6> <div id="alert-time"></div>
@@ -434,10 +419,28 @@
           checkTimeCabin();
         });
         $('#date-register').on('change',function(){
-          $('#date-register').addClass('is-valid');
-          checkTimeCabin();
+          console.log($('#address-register select').val());
+          if(!$('#address-register select').hasClass('is-valid')){
+            Swal.fire({
+              title: 'Lưu ý!',
+              text: 'Vui lòng chọn địa chỉ trước',
+              icon: 'error'
+            })
+            return;
+          }else{
+            $('#date-register').addClass('is-valid');
+            checkTimeCabin();
+          }
         })
         $('#date-register').on('change',function(e){
+          if(!$('#address-register select').hasClass('is-valid')){
+            Swal.fire({
+              title: 'Lưu ý!',
+              text: 'Vui lòng chọn địa chỉ trước',
+              icon: 'error'
+            })
+            return;
+          }
           let date_register = $(this).val();
           let date_check =  new Date().toJSON().slice(0,10);
           if(date_register >= date_check){

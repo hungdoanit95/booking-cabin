@@ -72,14 +72,14 @@ class BookingController extends Controller
         $tuition_unpaid = (int)str_replace('.','',$tuition_detail['tuition_unpaid']);
         $cabin_money = (int)str_replace('.','',$tuition_detail['cabin_money']);
         // if($tuition_paid == $tuition_total && $tuition_unpaid == 0){
-          $times_can_booking =  0;
-          if((int)$this->price_hour > 0 && (int)$cabin_money >= (int)$this->price_total){
-            $times_can_booking =  floor((int)$cabin_money/$this->price_hour) > 0 ? floor((int)$cabin_money/$this->price_hour) : 0; // số lần có thể bookg
-          }
+          $times_can_booking =  3;
+          // if((int)$this->price_hour > 0 && (int)$cabin_money >= (int)$this->price_total){
+          //   $times_can_booking =  floor((int)$cabin_money/$this->price_hour) > 0 ? floor((int)$cabin_money/$this->price_hour) : 0; // số lần có thể bookg
+          // }
           // Nếu Đủ 100% tiền, sông tại HCM miến phí 1 giờ học
-          if($this->is_tphcm === true && ($tuition_detail['register'] == 'Thủ Đức 2 (Trạm xăng Tam Bình)' || in_array(strtolower(mb_convert_encoding($tuition_detail['register'], 'UTF-8', 'UTF-8')),$this->district_hcm))){
-            $times_can_booking = $times_can_booking + 1;
-          }
+          // if($this->is_tphcm === true && ($tuition_detail['register'] == 'Thủ Đức 2 (Trạm xăng Tam Bình)' || in_array(strtolower(mb_convert_encoding($tuition_detail['register'], 'UTF-8', 'UTF-8')),$this->district_hcm))){
+          //   $times_can_booking = $times_can_booking + 1;
+          // }
           if(Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn 
           && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_bd
           && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_daukhi
