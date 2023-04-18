@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:google_sheet_api')->everyFifteenMinutes();
+        $schedule->command('command:google_sheet_api')->daily();
     }
 
     /**

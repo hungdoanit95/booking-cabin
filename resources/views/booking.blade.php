@@ -533,13 +533,13 @@
         $('.btn-item button').on('click',function(){
             let buttons = document.querySelectorAll('.btn-item button');
             let this_val = $(this).attr('html-value');
-            let value_choose = '';
+            let value_choose = [];
 
-            let cabin_register = document.querySelectorAll('#cabin-register .btn');
-            let check_click_cabin = 0;
-            cabin_register.forEach((item)=>{
+            let time_register = document.querySelectorAll('#time-register .btn');
+            var check_click_cabin = 0;
+            time_register.forEach((item)=>{
                 if(item.classList.contains('btn-success')){
-                    check_click_cabin = check_click_cabin + 1;
+                  check_click_cabin = check_click_cabin + 1;
                 }
             });
             
@@ -553,18 +553,28 @@
             }
             buttons.forEach(element => {
                 if(this_val != element.getAttribute('html-value') && element.classList.contains('btn-success')){
-                    element.classList.remove("btn-success");
-                    element.classList.add("btn-info");
+                  if(check_click_cabin >= 3){
+                    // element.classList.remove("btn-success");
+                    // element.classList.add("btn-info");
+                    Swal.fire({
+                        title: 'Cảnh báo!',
+                        text: 'Bạn chỉ có thể đặt tối đa 3 giờ học!',
+                        icon: 'error'
+                    })
+                    return;
+                  }
                 }else if(this_val == element.getAttribute('html-value')){
-                    if(element.classList.contains('btn-success')){
-                        element.classList.remove("btn-success");
-                        element.classList.add("btn-info");
-                        value_choose = '';
-                    }else{
-                        element.classList.add("btn-success");
-                        element.classList.remove("btn-info");
-                        value_choose = this_val;
+                  if(element.classList.contains('btn-success')){
+                      element.classList.remove("btn-success");
+                      element.classList.add("btn-info");
+                      value_choose = '';
+                  }else{
+                    if(check_click_cabin < 3){
+                      element.classList.add("btn-success");
+                      element.classList.remove("btn-info");
+                      value_choose.push(this_val);
                     }
+                  }
                 }
             });
             $('#time-choose').val(value_choose);
