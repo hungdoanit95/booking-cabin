@@ -91,8 +91,8 @@ class GoogleSheetCommand extends Command
 		// $spreadsheetIds = env('GOOGLE_SHEET_ID');
 		$spreadsheetIds = [
 			"1ZNyQB3tkRORgqVaKmnuLQK2Ht0fa2d67pD5pLTBZeOU", // 2023
-			"1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ", // 2022
-			"1RRnid17d5uRWVynZv9B6QPBkFu6e4rTDbCrUvoox4og", // 2021
+			// "1bYPOEvdj1noc3wwSppRD8KanNspvEfx3AN8hCDnF4nQ", // 2022
+			// "1RRnid17d5uRWVynZv9B6QPBkFu6e4rTDbCrUvoox4og", // 2021
 		];
 		$range = 'HocVien!A3:CM';
 		// get values
