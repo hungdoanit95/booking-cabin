@@ -252,7 +252,7 @@
                 <div class="card-header" style="position: relative;">
                     <h2>{{ __('Đăng ký trải nghiệm Cabin') }}</h2>
                     <p>140 Cộng Hòa, P.4, Q. Tân Bình, Hồ Chí Minh (Tầng 10 - Trường ĐH Văn Hóa Nghệ Thuật Quân Đội - phía sau Nhà hát Quân Đội)</p>
-                    <p>180/28/23 Nguyễn Hữu Cảnh, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh</p>
+                    {{-- <p>180/28/23 Nguyễn Hữu Cảnh, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh</p> --}}
                     <a href="/tim-kiem" class="btn btn-info btn-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                 </div>
 
@@ -293,21 +293,21 @@
                         <input  class="form-control" readonly id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
                     </div>
                     <div class="form-group">
-                      <h6>Địa chỉ đăng ký</h6>
+                      <h6>Địa chỉ trải nghiệm</h6>
                       <div id="address-register">
-                        <select class="form-control">
-                          <option value="1">Bình Thạnh</option>
+                        <select class="form-control is-valid">
+                          {{-- <option value="1">Bình Thạnh</option> --}}
                           <option value="2">Tân Bình</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group">
-                        <h6>Ngày đăng ký <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
+                        <h6>Ngày trải nghiệm <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
                         <?php $current_date = date("Y-m-d"); ?>
-                        <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian học">
+                        <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian">
                     </div>
                     <div class="form-group">
-                      <h6>Thời gian học <span style="color: #f00">(*)</span></h6> <div id="alert-time"></div>
+                      <h6>Thời gian <span style="color: #f00">(*)</span></h6> <div id="alert-time"></div>
                       <div id="time-register">
                           @foreach($time_books as $time_book)
                               <div class="slide-item">
@@ -324,6 +324,10 @@
                           @endforeach
                         <input id="time-choose" name="time_choose" type="hidden">
                       </div>
+                    </div>
+                    <div id="input-price" class="form-group">
+                      <h6>Phí trải nghiệm</h6>
+                      <input id="price" type="text" style="font-weight: bold" class="form-control" value="Miễn phí">
                     </div>
                     <div class="form-group">
                         <h6>Ghi chú</h6>
@@ -393,7 +397,7 @@
               if(res?.data?.length > 0){
                 res?.data?.map((i_time)=>{
                   list_times_register?.forEach((btn_time)=>{
-                      if(i_time.time_id == btn_time.getAttribute('html-value')){
+                      if(Object.keys(i_time.time_id) && (i_time.time_id.split(',').includes(btn_time.getAttribute('html-value')))){
                           btn_time.classList.add('btn-default');
                           if(btn_time.classList.contains('btn-info')){
                               btn_time.classList.remove('btn-info');
@@ -530,54 +534,90 @@
               return;
             }
         })
+        var value_choose = [];
+        var i_count = 0;
         $('.btn-item button').on('click',function(){
-            let buttons = document.querySelectorAll('.btn-item button');
-            let this_val = $(this).attr('html-value');
-            let value_choose = [];
+          value_choose = value_choose;
+          if($('#date-register').val() == ''){
+            Swal.fire({
+                title: 'Lưu ý!',
+                text: 'Vui lòng chọn ngày trải nghiệm trước!',
+                icon: 'error'
+            })
+            return;
+          }
+          let buttons = document.querySelectorAll('.btn-item button');
+          let this_val = $(this).attr('html-value');
+          let time_register = document.querySelectorAll('#time-register .btn');
+          var check_click_cabin = 0;
+          time_register.forEach((item)=>{
+              if(item.classList.contains('btn-success')){
+                check_click_cabin = check_click_cabin + 1;
+              }
+          });
 
-            let time_register = document.querySelectorAll('#time-register .btn');
-            var check_click_cabin = 0;
-            time_register.forEach((item)=>{
-                if(item.classList.contains('btn-success')){
-                  check_click_cabin = check_click_cabin + 1;
-                }
-            });
-            
-            if($(this).hasClass('btn-default')){
+          if(this_val != ''){
+            if(!value_choose.includes(this_val)){
+              if(i_count < 3 && !$(this).hasClass('btn-default')){
+                value_choose.push(this_val);
+                i_count++;
+              }
+            }else{
+              --i_count;
+              value_choose = value_choose.filter(item => item !== this_val);
+            }
+            if(i_count > 0){
+              $('#date-register').attr('readonly','readonly');
+              $('#input-price input').addClass('is-valid');
+              if(i_count > 1 && i_count <= 3){
+                let price_default = 320000;
+                let price_text = (price_default * i_count - price_default).toLocaleString('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                });
+                $('#input-price input').val(price_text);
+              }else{
+                $('#input-price input').val('Miễn phí');
+              }
+            }else{
+              $('#date-register').removeAttr('readonly','readonly');
+              $('#input-price input').removeClass('is-valid');
+            }
+          }
+          
+          if($(this).hasClass('btn-default')){
+              Swal.fire({
+                  title: 'Lưu ý!',
+                  text: 'Khung giờ đã có học viên đặt trước',
+                  icon: 'error'
+              })
+              return;
+          }
+          buttons.forEach(element => {
+            if(this_val != element.getAttribute('html-value') && element.classList.contains('btn-success')){
+              if(check_click_cabin > 3){
+                // element.classList.remove("btn-success");
+                // element.classList.add("btn-info");
                 Swal.fire({
-                    title: 'Lưu ý!',
-                    text: 'Khung giờ đã có học viên đặt trước',
+                    title: 'Cảnh báo!',
+                    text: 'Bạn chỉ có thể đặt tối đa 3 giờ học!',
                     icon: 'error'
                 })
                 return;
-            }
-            buttons.forEach(element => {
-                if(this_val != element.getAttribute('html-value') && element.classList.contains('btn-success')){
-                  if(check_click_cabin >= 3){
-                    // element.classList.remove("btn-success");
-                    // element.classList.add("btn-info");
-                    Swal.fire({
-                        title: 'Cảnh báo!',
-                        text: 'Bạn chỉ có thể đặt tối đa 3 giờ học!',
-                        icon: 'error'
-                    })
-                    return;
-                  }
-                }else if(this_val == element.getAttribute('html-value')){
-                  if(element.classList.contains('btn-success')){
-                      element.classList.remove("btn-success");
-                      element.classList.add("btn-info");
-                      value_choose = '';
-                  }else{
-                    if(check_click_cabin < 3){
-                      element.classList.add("btn-success");
-                      element.classList.remove("btn-info");
-                      value_choose.push(this_val);
-                    }
-                  }
+              }
+            }else if(this_val == element.getAttribute('html-value')){
+              if(element.classList.contains('btn-success')){
+                element.classList.remove("btn-success");
+                element.classList.add("btn-info");
+              }else{
+                if(check_click_cabin < 3){
+                  element.classList.add("btn-success");
+                  element.classList.remove("btn-info");
                 }
-            });
-            $('#time-choose').val(value_choose);
+              }
+            }
+          });
+          $('#time-choose').val(value_choose.toString());
         });
         
         // $('.list-cabin a').on('click',function(){
@@ -727,10 +767,10 @@
             let address_id = $('#address-register select').val();
             let date_check =  new Date().toJSON().slice(0,10);
             if(date_val < date_check){
-                $('#alert-date').html('<div class="text-danger">Ngày đăng ký không hợp lệ vui lòng chọn lại</div>');
+                $('#alert-date').html('<div class="text-danger">Ngày trải nghiệm không hợp lệ vui lòng chọn lại</div>');
                 Swal.fire({
                     title: 'Lưu ý!',
-                    text: 'Ngày đăng ký không hợp lệ vui lòng chọn lại',
+                    text: 'Ngày trải nghiệm không hợp lệ vui lòng chọn lại',
                     icon: 'error'
                 })
                 $('#date-register').addClass('is-invalid');
