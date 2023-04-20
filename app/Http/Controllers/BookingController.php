@@ -324,7 +324,9 @@ class BookingController extends Controller
               'message' => 'Số điện thoại của bạn không tồn tại trong danh sách học viên của hệ thống!'
           ]);
         }
-        if(empty($student_info['exam_evenue']) || Str::lower($student_info['exam_evenue']) != $this->exam_venue_dn){
+        if(empty($student_info['exam_evenue']) || (Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn 
+        && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_bd
+        && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_daukhi)){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
