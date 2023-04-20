@@ -910,7 +910,14 @@
                     $('#alert-group').html('<div class="text-success">'+data.message+'</div>');
                     Swal.fire({
                       title: 'Thành công!',
-                      html: data.message,
+                      html: `
+                      <p style="font-size: 15px; margin-bottom: 5px">Đặt lịch trải nghiệm Cabin thành công</p>
+                      <p style="font-size: 15px; margin-bottom: 5px">Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!</p>
+                      <p style="text-align: left;background: #f1f1f1;margin: 0;padding: 15px;font-size: 15px;line-height: 1.5;">Thông tin chuyển khoản:<br />
+                      Số tài khoản: 6646 6393 979<br />
+                      Chủ tài khoản: ĐẶNG THÁI HÂN<br />
+                      Ngân hàng: Thương mại cổ phần Tiền Phong - VPBank</p>
+                      `,
                       icon: 'success'
                     }).then(function(isConfirm) {
                       window.location.reload(false);
