@@ -916,7 +916,7 @@
                       <p style="text-align: left;background: #f1f1f1;margin: 0;padding: 15px;font-size: 15px;line-height: 1.5;">Thông tin chuyển khoản:<br />
                       Số tài khoản: 6646 6393 979<br />
                       Chủ tài khoản: ĐẶNG THÁI HÂN<br />
-                      Ngân hàng: Thương mại cổ phần Tiền Phong - VPBank</p>
+                      Ngân hàng: Thương mại cổ phần Tiền Phong - TPBank</p>
                       `,
                       icon: 'success'
                     }).then(function(isConfirm) {
