@@ -25,8 +25,8 @@ class BookingController extends Controller
     {
         $this->bookingRepo = $bookingRepo;
         $this->is_tphcm = true;
-        $this->price_hour = 320000; // Số tiền 1 giờ cần phải đóng
-        $this->price_total = 640000; // Tổng số tiền cần phải đóng
+        $this->price_hour = 350000; // Số tiền 1 giờ cần phải đóng
+        $this->price_total = 700000; // Tổng số tiền cần phải đóng
         $this->district_hcm = array(
           'quận 1', 'quận 3',
           'quận 4', 'quận 5', 'quận 6',
