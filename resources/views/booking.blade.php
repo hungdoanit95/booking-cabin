@@ -327,7 +327,7 @@
                     </div>
                     <div id="input-price" class="form-group">
                       <h6>Phí trải nghiệm</h6>
-                      <input id="price" type="text" style="font-weight: bold" class="form-control" value="Miễn phí">
+                      <input id="price" type="text" readonly style="font-weight: bold" class="form-control" value="Miễn phí">
                     </div>
                     <div class="form-group">
                         <h6>Ghi chú</h6>
