@@ -316,17 +316,17 @@ class BookingController extends Controller
         }else if(!empty($check_blacklist) && $check_blacklist['status'] == 0){
           $status_phone_blacklist = 1;
         }
-        $student_info = Student::where('telephone',$request['telephone'])->orWhere('telephone2',$request['telephone'])->get();
-        if(empty($student_info) || count($student_info) == 0){
+        $student_info = Student::where('telephone',$request['telephone'])->orWhere('telephone2',$request['telephone'])->first();
+        if(empty($student_info)){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
               'message' => 'Số điện thoại của bạn không tồn tại trong danh sách học viên của hệ thống!'
           ]);
         }
-        if(empty($student_info['exam_evenue']) || (Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_dn 
-        && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_bd
-        && Str::lower($tuition_detail['exam_evenue']) !== $this->exam_venue_daukhi)){
+        if(empty($student_info['exam_evenue']) || (Str::lower($student_info['exam_evenue']) !== $this->exam_venue_dn 
+        && Str::lower($student_info['exam_evenue']) !== $this->exam_venue_bd
+        && Str::lower($student_info['exam_evenue']) !== $this->exam_venue_daukhi)){
           return response()->json([
               'api_name' => 'Api xét mã OPT',
               'status' => 0,
