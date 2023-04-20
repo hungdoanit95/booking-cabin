@@ -570,7 +570,7 @@
               $('#date-register').attr('readonly','readonly');
               $('#input-price input').addClass('is-valid');
               if(i_count > 1 && i_count <= 3){
-                let price_default = 320000;
+                let price_default = 350000;
                 let price_text = (price_default * i_count - price_default).toLocaleString('vi-VN', {
                   style: 'currency',
                   currency: 'VND',
