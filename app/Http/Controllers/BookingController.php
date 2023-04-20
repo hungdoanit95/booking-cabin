@@ -125,35 +125,37 @@ class BookingController extends Controller
             return redirect()->back()->width('msg', 'Vui lòng kiểm tra lại dữ liệu'); 
         }
         $cabin_id = 0;
-        $time_id = $request->time_val;
+        $time_ids = explode(',',$request->time_val);
         $address_id = $request->address_id;
         $date_booking = isset($request->date_val) ? $request->date_val : strtotime(date("Y-m-d")."+ 2 days");
-        if($this->checkTimeBooking($date_booking,$time_id,$address_id)){
-          return response()->json([
-              'api_name' => 'Đặt lịch học Cabin',
-              'message' => 'Thời gian đặt đã có người đặt vui lòng chọn thời gian khác',
-              'status' => 0,
-          ]);
-        }
-        $name_booking = $request->name_val;
-        $email_booking = 'email@gmail.com';
-        $telephone_booking = $request->telephone_val;
-        $status = $request->status;
-        $data_filter = array(
-            'cabin_id' => $cabin_id,
-            'time_id' => $time_id,
-            'date_booking' => $date_booking,
-            'telephone_booking' => $telephone_booking,
-        );
-        $check_tuition = $this->checkTuitionFee($telephone_booking);
-        if($check_tuition == 2){
-          $data_create_update = array(
-              'name_booking' => $name_booking,
-              'email_booking' => $email_booking,
-              'address_id' => $address_id,
-              'status' => $check_tuition?$check_tuition:0, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
+        foreach($time_ids as $time_id){
+          if($this->checkTimeBooking($date_booking,$time_id,$address_id)){
+            return response()->json([
+                'api_name' => 'Đặt lịch học Cabin',
+                'message' => 'Thời gian đặt đã có người đặt vui lòng chọn thời gian khác',
+                'status' => 0,
+            ]);
+          }
+          $name_booking = $request->name_val;
+          $email_booking = 'email@gmail.com';
+          $telephone_booking = $request->telephone_val;
+          $status = $request->status;
+          $data_filter = array(
+              'cabin_id' => $cabin_id,
+              'time_id' => $time_id,
+              'date_booking' => $date_booking,
+              'telephone_booking' => $telephone_booking,
           );
-          $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
+          $check_tuition = $this->checkTuitionFee($telephone_booking);
+          if($check_tuition == 2){
+            $data_create_update = array(
+                'name_booking' => $name_booking,
+                'email_booking' => $email_booking,
+                'address_id' => $address_id,
+                'status' => $check_tuition?$check_tuition:0, // 2: hệ thống tự duyệt / 1: chờ duyệt vì không có thông tin / 3: chờ duyệt vì hết tiền
+            );
+            $check_add_update = Booking::updateOrCreate($data_filter,$data_create_update);
+          }
         }
         if(!empty($check_add_update)){
           $message = 'Đặt lịch trải nghiệm Cabin thành công<br />Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!';
