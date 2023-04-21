@@ -140,19 +140,20 @@
             dataType: 'json',
             success: function(response){
                 console.log(response);
-                let status_label = 'Chưa xác nhận';
                 if(response.status){
                     let data_html = `
                         <div class="content">
                             <h2>Kết quả tìm kiếm</h2>
-                            <ul class="list-result">` + 
-                                response.data.map((item)=>(`<li class="item">` + 
+                            <ul class="list-result" style="padding:0">` + 
+                                response.data.map((item)=>{
+                                    let status_label = (item?.status == 2)?'<span style="padding: 5px 10px; border-radius: 5; background: #249300">Đã xác nhận</span>':'<span style="padding: 5px 10px; border-radius: 5, background: #f00">Chưa xác nhận</span>';
+                                    return (`<li class="item">` + 
                                     `<p>Học viên: `+item.name_booking+`</p>` + 
                                     `<p>Điện thoại: `+item.telephone_booking+`</p>` + 
                                     `<p>Ngày học: `+item.date_booking+`</p>` + 
                                     `<p>Thời gian học: `+item.time_value+`</p>`+
-                                    `<p>Tình trạng: <span>`+status_label+`</span></p></li>`
-                                ));
+                                    `<p>Tình trạng: `+status_label+`</p></li>`
+                                )});
                             + `</ul>
                         </div>
                     `;
@@ -172,10 +173,11 @@
 </script>
 <style>
     .list-result li{
-        background: #ffefde;
+        background: #dfdfdf;
         padding: 15px;
         border-radius: 10px;
         color: #000;
+        list-style: none;
     }
     .list-result li span{
         background: #f00;
