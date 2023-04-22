@@ -56,6 +56,11 @@
     .row-delete td{
       text-decoration: line-through;
     }
+    #loc-danh-sach select{
+      -moz-appearance:auto; /* Firefox */
+      -webkit-appearance:auto; /* Safari and Chrome */
+      appearance:auto;
+    }
 </style>
 @section('content')
 <div class="container-fluid">
@@ -70,9 +75,17 @@
                     @endif
                     <div id="table-booking">
                         <div id="loc-danh-sach" class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <h3>Danh sách lịch học Cabin</h3>
+                                <select class="form-control">
+                                  <option value="*">--- Chế độ xem ---</option>
+                                  <option value="*">Ngày đặt lịch (Mới -> cũ)</option>
+                                  <option value="*">Ngày đặt lịch (Cũ -> Mới)</option>
+                                  <option value="*">Ngày đăng ký học (Mới -> Cũ)</option>
+                                  <option value="*">Ngày đăng ký học (Cũ -> Mới)</option>
+                                </select>
                             </div>
+                            <div class="col-sm-3"></div>
                             <div class="col-sm-6">
                               <div class="bg-filter">
                                 <h3>Lọc tìm kiếm</h3>

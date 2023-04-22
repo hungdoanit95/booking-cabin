@@ -45,8 +45,8 @@ class HomeController extends Controller
     if(!empty($status)){
       $datas = $datas->where('booking_cabin.status',$status);
     }
-    $datas = $datas->orderBy('date_booking','DESC');
-    $datas = $datas->orderBy('time_value','DESC');
+    $datas = $datas->orderBy('date_booking','ASC');
+    $datas = $datas->orderBy('time_value','ASC');
     $datas = $datas->select(
       'course_code',
       'student_code',
