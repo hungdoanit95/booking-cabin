@@ -77,13 +77,13 @@
                         <div id="loc-danh-sach" class="row">
                             <div class="col-sm-3">
                                 <h3>Danh sách lịch học Cabin</h3>
-                                {{-- <select class="form-control" id="view-type">
+                                <select style="margin-top: 35px;" class="form-control" id="view-type">
                                   <option value="*">--- Chế độ xem ---</option>
-                                  <option value="*">Ngày đặt lịch (Mới -> cũ)</option>
-                                  <option value="*">Ngày đặt lịch (Cũ -> Mới)</option>
-                                  <option value="*">Ngày đăng ký học (Mới -> Cũ)</option>
-                                  <option value="*">Ngày đăng ký học (Cũ -> Mới)</option>
-                                </select> --}}
+                                  <option value="1">Ngày học (Mới -> Cũ)</option>
+                                  <option value="2">Ngày học (Cũ -> Mới)</option>
+                                  <option value="3">Ngày đặt (Mới -> cũ)</option>
+                                  <option value="4">Ngày đặt (Cũ -> Mới)</option>
+                                </select>
                             </div>
                             <div class="col-sm-3"></div>
                             <div class="col-sm-6">
@@ -125,7 +125,7 @@
                                     <th>Mã khóa học</th>
                                     <th>Mã học viên</th>
                                     <th>Họ tên học viên</th>
-                                    <th>Số điện thoại viên</th>
+                                    <th>Số điện thoại học viên</th>
                                     <th>Ngày</th>
                                     <th>Thời gian</th>
                                     <th>Ghi chú của Hv</th>
@@ -138,7 +138,7 @@
                                   <th>Mã khóa học</th>
                                   <th>Mã học viên</th>
                                   <th>Họ tên học viên</th>
-                                  <th>Số điện thoại viên</th>
+                                  <th>Số điện thoại học viên</th>
                                   <th>Ngày</th>
                                   <th>Thời gian</th>
                                   <th>Ghi chú của Hv</th>
@@ -316,5 +316,13 @@
       $(this).addClass('hidden');
       $(this).parent().find('.btn-edit-build').removeClass('hidden');
     });
+</script>
+<script>
+  $(document).ready(function(){
+    let view_type = $('#view-type').val();
+    if(view_type !== '*'){
+      window.location.href = '/danh-sach?typeview='+view_type;
+    }
+  });
 </script>
 @endsection
