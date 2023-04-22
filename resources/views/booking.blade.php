@@ -250,7 +250,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header" style="position: relative;">
-                    <h2>{{ __('Đăng ký trải nghiệm Cabin') }}</h2>
+                    <h2>{{ __('Đăng ký luyện tập Cabin') }}</h2>
                     <p>140 Cộng Hòa, P.4, Q. Tân Bình, Hồ Chí Minh (Tầng 10 - Trường ĐH Văn Hóa Nghệ Thuật Quân Đội - phía sau Nhà hát Quân Đội)</p>
                     {{-- <p>180/28/23 Nguyễn Hữu Cảnh, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh</p> --}}
                     <a href="/tim-kiem" class="btn btn-info btn-search"><i class="fa fa-search" aria-hidden="true"></i></a>
@@ -293,7 +293,7 @@
                         <input  class="form-control" readonly id="name-register" name="name_register" type="text" placeholder="Họ tên học viên">
                     </div>
                     <div class="form-group">
-                      <h6>Địa chỉ trải nghiệm</h6>
+                      <h6>Địa chỉ luyện tập</h6>
                       <div id="address-register">
                         <select class="form-control is-valid">
                           {{-- <option value="1">Bình Thạnh</option> --}}
@@ -302,7 +302,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                        <h6>Ngày trải nghiệm <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
+                        <h6>Ngày luyện tập <span style="color: #f00">(*)</span></h6> <div id="alert-date"></div>
                         <?php $current_date = date("Y-m-d"); ?>
                         <input class="form-control" id="date-register" name="date_register" min="{{ date('Y-m-d') }}" type="date" placeholder="Thời gian">
                     </div>
@@ -325,17 +325,17 @@
                         <input id="time-choose" name="time_choose" type="hidden">
                       </div>
                     </div>
-                    <div id="input-price" class="form-group">
-                      <h6>Phí trải nghiệm</h6>
+                    {{-- <div id="input-price" class="form-group">
+                      <h6>Phí luyện tập</h6>
                       <input id="price" type="text" readonly style="font-weight: bold" class="form-control" value="Miễn phí">
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <h6>Ghi chú</h6>
                         <textarea class="form-control"></textarea>
                     </div>
                     <div class="form-group">
-                        <p style="color: #f00; font-family: Arial">Lưu ý: Học viên đăng ký trải nghiệm Cabin nhưng không đến được vui lòng hủy lịch trước 24h. 
-                            <br/>Trường hợp không hủy hoặc không được hủy, thời gian trải nghiệm vẫn được tính chi phí cho học viên
+                        <p style="color: #f00; font-family: Arial">Lưu ý: Học viên đăng ký luyện tập Cabin nhưng không đến được vui lòng hủy lịch trước 24h. 
+                            <br/>Trường hợp không hủy hoặc không được hủy, thời gian luyện tập vẫn được tính chi phí cho học viên
                          </p>
                         <div class="confirm-box">
                           <p style="color: #000;display: flex;vertical-align: middle;"><input id="ckx-confirm" type="checkbox" /> <label style="font-size: 13px; margin-left: 5px;" for="ckx-confirm">Tôi đồng ý với lưu ý trên</label></p>
@@ -541,7 +541,7 @@
           if($('#date-register').val() == ''){
             Swal.fire({
                 title: 'Lưu ý!',
-                text: 'Vui lòng chọn ngày trải nghiệm trước!',
+                text: 'Vui lòng chọn ngày luyện tập trước!',
                 icon: 'error'
             })
             return;
@@ -568,20 +568,20 @@
             }
             if(i_count > 0){
               $('#date-register').attr('readonly','readonly');
-              $('#input-price input').addClass('is-valid');
-              if(i_count > 1 && i_count <= 3){
-                let price_default = 350000;
-                let price_text = (price_default * i_count - price_default).toLocaleString('vi-VN', {
-                  style: 'currency',
-                  currency: 'VND',
-                });
-                $('#input-price input').val(price_text);
-              }else{
-                $('#input-price input').val('Miễn phí');
-              }
+              // $('#input-price input').addClass('is-valid');
+              // if(i_count > 1 && i_count <= 3){
+              //   let price_default = 350000;
+              //   let price_text = (price_default * i_count - price_default).toLocaleString('vi-VN', {
+              //     style: 'currency',
+              //     currency: 'VND',
+              //   });
+              //   $('#input-price input').val(price_text);
+              // }else{
+              //   $('#input-price input').val('Miễn phí');
+              // }
             }else{
               $('#date-register').removeAttr('readonly','readonly');
-              $('#input-price input').removeClass('is-valid');
+              // $('#input-price input').removeClass('is-valid');
             }
           }
           
@@ -767,10 +767,10 @@
             let address_id = $('#address-register select').val();
             let date_check =  new Date().toJSON().slice(0,10);
             if(date_val < date_check){
-                $('#alert-date').html('<div class="text-danger">Ngày trải nghiệm không hợp lệ vui lòng chọn lại</div>');
+                $('#alert-date').html('<div class="text-danger">Ngày luyện tập không hợp lệ vui lòng chọn lại</div>');
                 Swal.fire({
                     title: 'Lưu ý!',
-                    text: 'Ngày trải nghiệm không hợp lệ vui lòng chọn lại',
+                    text: 'Ngày luyện tập không hợp lệ vui lòng chọn lại',
                     icon: 'error'
                 })
                 $('#date-register').addClass('is-invalid');
@@ -911,8 +911,8 @@
                     Swal.fire({
                       title: 'Thành công!',
                       html: `
-                      <p style="font-size: 15px; margin-bottom: 5px">Đặt lịch trải nghiệm Cabin thành công</p>
-                      <p style="font-size: 15px; margin-bottom: 5px">Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia trải nghiệm nếu không vẫn tính thời gian trải nghiệm!</p>
+                      <p style="font-size: 15px; margin-bottom: 5px">Đặt lịch luyện tập Cabin thành công</p>
+                      <p style="font-size: 15px; margin-bottom: 5px">Vui lòng đến đúng giờ hoặc hủy lịch trước 24h nếu không thể tham gia luyện tập nếu không vẫn tính thời gian luyện tập!</p>
                       <p style="text-align: left;background: #f1f1f1;margin: 0;padding: 15px;font-size: 15px;line-height: 1.5;">Thông tin chuyển khoản:<br />
                       Số tài khoản: 6646 6393 979<br />
                       Chủ tài khoản: ĐẶNG THÁI HÂN<br />
@@ -942,7 +942,7 @@
       if(!$('#address-register select').hasClass('is-valid')){
         Swal.fire({
           title: 'Lưu ý!',
-          text: 'Vui lòng chọn địa điểm trải nghiệm',
+          text: 'Vui lòng chọn địa điểm luyện tập',
           icon: 'error'
         })
         return;
