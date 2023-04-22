@@ -45,8 +45,19 @@ class HomeController extends Controller
     if(!empty($status)){
       $datas = $datas->where('booking_cabin.status',$status);
     }
-    $datas = $datas->orderBy('date_booking','ASC');
-    $datas = $datas->orderBy('time_value','ASC');
+    if(isset($request->typeview) && $request->typeview !== '*'){
+      if($request->typeview == 1){
+        $datas = $datas->orderBy('date_booking','DESC');
+        $datas = $datas->orderBy('time_value','DESC');
+      }else if($request->typeview == 2){
+        $datas = $datas->orderBy('date_booking','ASC');
+        $datas = $datas->orderBy('time_value','ASC');
+      }else if($request->typeview == 3){
+        $datas = $datas->orderBy('booking_cabin.created_at','DESC');
+      }else if($request->typeview == 4){
+        $datas = $datas->orderBy('booking_cabin.created_at','ASC');
+      }
+    }
     $datas = $datas->select(
       'course_code',
       'student_code',
@@ -72,6 +83,7 @@ class HomeController extends Controller
           'student_phonecode' => $student_phonecode,
           'date_booking' => $date_booking,
           'status' => $status,
+          'typeview' => isset($request->typeview)?$request->typeview:''
         ]
       ]);
   }

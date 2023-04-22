@@ -78,11 +78,11 @@
                             <div class="col-sm-3">
                                 <h3>Danh sách lịch học Cabin</h3>
                                 <select style="margin-top: 35px;" class="form-control" id="view-type">
-                                  <option value="*">--- Chế độ xem ---</option>
-                                  <option value="1">Ngày học (Mới -> Cũ)</option>
-                                  <option value="2">Ngày học (Cũ -> Mới)</option>
-                                  <option value="3">Ngày đặt (Mới -> cũ)</option>
-                                  <option value="4">Ngày đặt (Cũ -> Mới)</option>
+                                  <option {{isset($filter['typeview']) && $filter['typeview'] == '*'?'selected':''}} value="*">--- Chế độ xem ---</option>
+                                  <option {{isset($filter['typeview']) && $filter['typeview'] == 1?'selected':''}} value="1">Ngày học (Mới -> Cũ)</option>
+                                  <option {{isset($filter['typeview']) && $filter['typeview'] == 2?'selected':''}} value="2">Ngày học (Cũ -> Mới)</option>
+                                  <option {{isset($filter['typeview']) && $filter['typeview'] == 3?'selected':''}} value="3">Ngày đặt (Mới -> cũ)</option>
+                                  <option {{isset($filter['typeview']) && $filter['typeview'] == 4?'selected':''}} value="4">Ngày đặt (Cũ -> Mới)</option>
                                 </select>
                             </div>
                             <div class="col-sm-3"></div>
@@ -319,10 +319,14 @@
 </script>
 <script>
   $(document).ready(function(){
-    let view_type = $('#view-type').val();
-    if(view_type !== '*'){
-      window.location.href = '/danh-sach?typeview='+view_type;
-    }
+    $('#view-type').on('change',function(){
+      let view_type = $('#view-type').val();
+      if(view_type !== '*'){
+        window.location.href = '/danh-sach?typeview='+view_type;
+      }else{
+        window.location.href = '/danh-sach';
+      }
+    });
   });
 </script>
 @endsection
